@@ -11,6 +11,7 @@ public enum ResultCode {
     UNAUTHORIZED(false, HttpStatus.UNAUTHORIZED.value(), "未认证或签名错误"),
     FORBIDDEN(false, HttpStatus.FORBIDDEN.value(), "资源拒绝访问"),
     NOT_FOUND(false, HttpStatus.NOT_FOUND.value(), "接口不存在"),
+    METHOD_NOT_ALLOWED(false, HttpStatus.METHOD_NOT_ALLOWED.value(), "请求方法错误"),
     CONFLICT(false, HttpStatus.CONFLICT.value(), "与数据库中已有数据冲突"),
 
     INTERNAL_SERVER_ERROR(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "内部服务器错误"),
