@@ -2,6 +2,7 @@ package com.gaogaoqwq.course_info_management_system_backend.controller.user;
 
 import com.gaogaoqwq.course_info_management_system_backend.response.R;
 import com.gaogaoqwq.course_info_management_system_backend.response.ResultCode;
+import com.gaogaoqwq.course_info_management_system_backend.security.jwt.JwtProperties;
 import com.gaogaoqwq.course_info_management_system_backend.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -23,8 +24,8 @@ import java.util.Map;
 public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
-
     private final JwtTokenProvider jwtTokenProvider;
+    private final JwtProperties jwtProperties;
 
     @PostMapping("/login")
     public R login(@RequestBody @NotNull AuthenticationRequest request)
@@ -34,7 +35,11 @@ public class AuthenticationController {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(username, request.getPassword()));
             String token = jwtTokenProvider.createToken(authentication);
-            Map<String, Object> data = Map.of("username", username, "token", token);
+            Map<String, Object> data = Map.of(
+                "username", username,
+                "token", token,
+                "validityInMs", jwtProperties.getValidityInMs()
+            );
             return R.success()
                     .code(ResultCode.SUCCESS.getCode())
                     .data(data);
