@@ -21,7 +21,7 @@ public class StudentController {
     private final StudentService studentService;
 
     @PostMapping("/save")
-    public R save(@RequestBody Student student) throws SQLException, ParamException {
+    public R save(@RequestBody @NotNull Student student) throws SQLException, ParamException {
         Student std = studentService.save(student, student.getFkClass());
         return R.success().code(ResultCode.SUCCESS.getCode()).data(std);
     }

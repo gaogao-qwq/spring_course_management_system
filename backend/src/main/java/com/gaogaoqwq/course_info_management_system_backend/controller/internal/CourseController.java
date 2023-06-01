@@ -22,7 +22,7 @@ public class CourseController {
     private final CourseService courseService;
 
     @PostMapping("/save")
-    public R save(@RequestBody Course course) throws SQLException, ParamException {
+    public R save(@RequestBody @NotNull Course course) throws SQLException, ParamException {
         Course crs = courseService.save(course, course.getFkTeacher(), course.getFkClass());
         return R.success().code(ResultCode.SUCCESS.getCode()).data(crs);
     }

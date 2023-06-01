@@ -21,7 +21,7 @@ public class TeacherController {
     private final TeacherService teacherService;
 
     @PostMapping("/save")
-    public R save(@RequestBody Teacher teacher) throws SQLException {
+    public R save(@RequestBody @NotNull Teacher teacher) throws SQLException {
         return R.success().code(ResultCode.SUCCESS.getCode()).data(teacherService.save(teacher));
     }
 

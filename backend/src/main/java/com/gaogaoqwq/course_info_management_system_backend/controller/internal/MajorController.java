@@ -22,7 +22,7 @@ public class MajorController {
     private final MajorService majorService;
 
     @PostMapping("/save")
-    public R save(@RequestBody Major major) throws SQLException, ParamException {
+    public R save(@RequestBody @NotNull Major major) throws SQLException, ParamException {
         Major mjr = majorService.save(major);
         return R.success().code(ResultCode.SUCCESS.getCode()).data(mjr);
     }
