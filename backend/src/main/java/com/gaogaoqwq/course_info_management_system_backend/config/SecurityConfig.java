@@ -52,9 +52,9 @@ public class SecurityConfig {
     }
 
     @Bean
-    UserDetailsService customUserDetailsService(UserRepository users) throws AuthenticationException {
+    UserDetailsService customUserDetailsService(UserRepository users) throws UsernameNotFoundException {
         return (username) -> users.findUserByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Username: " + username + " not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("用户：" + username + " 未找到"));
     }
 
     @Bean
@@ -67,11 +67,11 @@ public class SecurityConfig {
             UserDetails user = userDetailsService.loadUserByUsername(username);
 
             if (!encoder.matches(password, user.getPassword())) {
-                throw new BadCredentialsException("Bad credentials");
+                throw new BadCredentialsException("签名错误");
             }
 
             if (!user.isEnabled()) {
-                throw new DisabledException("User account is not active");
+                throw new DisabledException("用户已被停用");
             }
 
             return new UsernamePasswordAuthenticationToken(username, null, user.getAuthorities());

@@ -5,6 +5,7 @@ import com.gaogaoqwq.course_info_management_system_backend.response.ResultCode;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -43,15 +44,7 @@ public class GlobalExceptionHandler {
     public R AuthenticationExceptionHandler(@NotNull AuthenticationException e) {
         return R.failure()
                 .code(ResultCode.UNAUTHORIZED.getCode())
-                .message(ResultCode.UNAUTHORIZED.getMessage());
-    }
-
-    @ResponseBody
-    @ExceptionHandler(BadCredentialsException.class)
-    public R BadCredentialsExceptionHandler(@NotNull BadCredentialsException e) {
-        return R.failure()
-                .code(ResultCode.UNAUTHORIZED.getCode())
-                .message(ResultCode.UNAUTHORIZED.getMessage());
+                .message(e.getMessage());
     }
 
     @ResponseBody

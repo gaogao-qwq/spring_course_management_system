@@ -30,22 +30,18 @@ public class AuthenticationController {
     @PostMapping("/login")
     public R login(@RequestBody @NotNull AuthenticationRequest request)
             throws AuthenticationException {
-        try {
-            String username = request.getUsername();
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(username, request.getPassword()));
-            String token = jwtTokenProvider.createToken(authentication);
-            Map<String, Object> data = Map.of(
+        String username = request.getUsername();
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(username, request.getPassword()));
+        String token = jwtTokenProvider.createToken(authentication);
+        Map<String, Object> data = Map.of(
                 "username", username,
                 "token", token,
                 "validityInMs", jwtProperties.getValidityInMs()
-            );
-            return R.success()
-                    .code(ResultCode.SUCCESS.getCode())
-                    .data(data);
-        } catch (AuthenticationException e) {
-            throw new BadCredentialsException("用户名不存在或密码错误");
-        }
+        );
+        return R.success()
+                .code(ResultCode.SUCCESS.getCode())
+                .data(data);
     }
 
 }
