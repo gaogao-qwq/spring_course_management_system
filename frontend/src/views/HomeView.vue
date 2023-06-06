@@ -1,51 +1,124 @@
 <script setup lang="ts">
-import { ref, reactive } from 'vue';
-import { useUserStore } from '@/stores/user';
-import { isNull, isString } from 'lodash';
+import { ref, reactive, inject } from 'vue';
+import { isEmpty, isNull, isUndefined } from 'lodash';
+import router from '@/router';
+import { LoginApi } from '@/internal/apis';
+import type { Resp } from '@/internal/resp';
+import type { VueCookies } from 'vue-cookies';
+import type { FormInstance, FormRules } from 'element-plus';
 
+
+const $cookies = inject<VueCookies>('$cookies');
 const dialogVisible = ref(false)
 const dialogMessage = ref("")
 
+const ruleFormRef = ref<FormInstance>()
 const form = reactive({
   "username": "",
   "password": ""
 })
 
-const onLogin = () => {
-  let msg = useUserStore().login(form.username, form.password)
-  if (!isNull(msg)) {
-    dialogVisible.value = true
-    dialogMessage.value = msg as string
+const usernameValidator = (rule: any, value: any, callback: any) => {
+  if (isNull(value) || isEmpty(value)) {
+    callback(new Error("账号不得为空"))
   }
+  callback()
+}
+
+const passwordValidator = (rule: any, value: any, callback: any) => {
+  if (isNull(value) || isEmpty(value)) {
+    console.log(value)
+    callback(new Error("密码不得为空"))
+  }
+  callback()
+}
+
+const rules = reactive<FormRules>({
+  username: [{ validator: usernameValidator, trigger: "blur" }],
+  password: [{ validator: passwordValidator, trigger: "blur" }],
+})
+
+const onLogin = async (formEl: FormInstance | undefined) => {
+  console.log(formEl)
+  if (isUndefined(formEl) || isNull(formEl)) return
+
+  formEl?.validate(async (valid) => {
+    if (!valid) {
+      return;
+    }
+
+    let msg = await LoginApi
+      .post('', {
+        'username': form.username,
+        'password': form.password
+    })
+      .then((response) => {
+        let r = response as Resp
+        if (!r.success || isNull(r.data)) {
+          return r.message;
+        }
+        $cookies?.set("token", r.data.token, r.data.validityInMs as number/1000)
+        $cookies?.set("username", r.data.username, r.data.validityInMs as number/1000)
+        console.log($cookies)
+        return ""
+    })
+      .catch(() => {
+        return "服务连接失败"
+    })
+    if (!isEmpty(msg)) {
+      dialogMessage.value = msg
+      dialogVisible.value = true
+      return
+    }
+    router.push("/admin")
+  })
 }
 </script>
 
 <template>
 
-  <el-card class="login-form">
-    <h2>登录</h2>
-    <el-divider/>
-    <el-form 
-      label-position="top"
-    >
-      <el-form-item label="账号">
-        <el-input v-model="form.username" />
-      </el-form-item>
-      <el-form-item label="密码">
-        <el-input type="password" v-model="form.password" />
-      </el-form-item>
-      <el-row justify="center">
-        <el-button
-          type="primary"
-          @click=onLogin
-        >
-          登陆
-        </el-button>
-      </el-row>
-    </el-form>
-  </el-card>
+  <div class="container">
+    <el-card class="login-form">
+      <h2>登录</h2>
+      <el-divider/>
+      <el-form
+        label-position="top"
+        ref="ruleFormRef"
+        status-icon
+        :model="form"
+        :rules="rules"
+      >
+        <el-form-item label="账号" prop="username">
+          <el-input
+            v-model="form.username"
+            max-length="20"
+            placeholder="输入账号"
+          />
+        </el-form-item>
+        <el-form-item label="密码" prop="password">
+          <el-input
+            type="password"
+            v-model="form.password"
+            max-length="20"
+            placeholder="输入密码"
+            show-password
+            autocomplete="off"
+          />
+        </el-form-item>
+        <el-row justify="center">
+          <el-button
+            type="primary"
+            @click=onLogin(ruleFormRef)
+          >
+            登陆
+          </el-button>
+        </el-row>
+      </el-form>
+    </el-card>
+  </div>
 
   <el-dialog
+    class="dialog"
     v-model="dialogVisible"
     title="注意"
     width="30%"
@@ -65,15 +138,21 @@ const onLogin = () => {
 </template>
 
 <style scoped>
+  .container {
+    /* align-items: center; */
+    justify-content: center;
+    display: flex;
+  }
   .login-form {
     position: relative;
+    margin-top: 10%;
+    width: 400px;
+    height: 300px;
+    padding: 30px;
     border-radius: 16px;
-    margin-top: 30%;
-    margin-left: 40%;
-    margin-right: 10%;
-    margin-bottom: 30%;
-  }
-  .login-form h2 {
     text-align: center;
+  }
+  .dialog {
+    border-radius: 8px;
   }
 </style>
