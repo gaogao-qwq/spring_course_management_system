@@ -1,5 +1,7 @@
 package com.gaogaoqwq.course_info_management_system_backend.entity.user;
 
+import com.gaogaoqwq.course_info_management_system_backend.entity.internal.Student;
+import com.gaogaoqwq.course_info_management_system_backend.entity.internal.Teacher;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -28,6 +30,12 @@ public class User implements UserDetails {
 
     @Column(name="user_password", nullable = false)
     private String password;
+
+    @OneToOne
+    private Student fkStudent;
+
+    @OneToOne
+    private Teacher fkTeacher;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
