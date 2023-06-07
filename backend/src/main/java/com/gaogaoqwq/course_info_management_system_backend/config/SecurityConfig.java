@@ -37,6 +37,7 @@ public class SecurityConfig {
                 .exceptionHandling(c -> c.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/user/**").hasAnyRole("ADMIN", "STUDENT", "TEACHER")
                         .requestMatchers(HttpMethod.GET, "/student/**").hasAnyRole("ADMIN", "STUDENT")
                         .requestMatchers(HttpMethod.GET, "/teacher/**").hasAnyRole("ADMIN", "TEACHER")
                         .requestMatchers(HttpMethod.GET, "/class/**").hasAnyRole("ADMIN", "STUDENT", "TEACHER")
