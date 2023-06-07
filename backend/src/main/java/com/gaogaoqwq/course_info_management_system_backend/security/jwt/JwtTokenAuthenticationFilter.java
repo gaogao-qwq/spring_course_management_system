@@ -1,5 +1,6 @@
 package com.gaogaoqwq.course_info_management_system_backend.security.jwt;
 
+import com.google.gson.Gson;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
@@ -17,6 +18,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
 
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -48,7 +50,17 @@ public class JwtTokenAuthenticationFilter extends GenericFilterBean {
     }
 
     private Optional<String> resolveToken(@NotNull HttpServletRequest request) {
+        Enumeration<String> list = request.getHeaderNames();
+        log.info("HeaderNames: {}", list);
         String bearerToken = request.getHeader(HttpHeaders.AUTHORIZATION);
+        if (bearerToken == null ||  bearerToken.isEmpty()) {
+            String cookies = request.getHeader("cookie");
+            int tokenIndex = cookies.indexOf("token=");
+            bearerToken = HEADER_PREFIX + (
+                    tokenIndex == -1
+                    ? null
+                    : cookies.substring(tokenIndex+6));
+        }
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(HEADER_PREFIX)) {
             return Optional.of(bearerToken.substring(7));
         }
