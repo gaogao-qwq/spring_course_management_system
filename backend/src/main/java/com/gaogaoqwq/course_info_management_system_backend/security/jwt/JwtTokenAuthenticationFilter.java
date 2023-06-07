@@ -1,6 +1,6 @@
 package com.gaogaoqwq.course_info_management_system_backend.security.jwt;
 
-import com.google.gson.Gson;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
