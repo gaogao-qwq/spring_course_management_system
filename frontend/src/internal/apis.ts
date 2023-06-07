@@ -1,6 +1,18 @@
-import { mande } from "mande"
-import { BaseURL } from "@/internal/urls"
+import axios from 'axios'
 
-export const LoginApi = mande(BaseURL + "/auth/login", {}, fetch)
+axios.defaults.baseURL = 'http://localhost:8080'
+axios.defaults.withCredentials = true
+
+export const LoginApi = axios.create({
+  url: '/auth/login',
+})
+
+export const UserInfoApi = axios.create({
+  url: '/user/',
+})
+
+export const UpdateUserInfoApi = axios.create({
+  url: '/user/update',
+})
 
 

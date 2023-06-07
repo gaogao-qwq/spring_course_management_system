@@ -3,7 +3,6 @@ import { ref, reactive, inject } from 'vue';
 import { isEmpty, isNull, isUndefined } from 'lodash';
 import router from '@/router';
 import { LoginApi } from '@/internal/apis';
-import type { Resp } from '@/internal/resp';
 import type { VueCookies } from 'vue-cookies';
 import type { FormInstance, FormRules } from 'element-plus';
 
@@ -48,17 +47,16 @@ const onLogin = async (formEl: FormInstance | undefined) => {
     }
 
     let msg = await LoginApi
-      .post('', {
+      .post('/auth/login', {
         'username': form.username,
         'password': form.password
     })
-      .then((response) => {
-        let r = response as Resp
-        if (!r.success || isNull(r.data)) {
-          return r.message;
+      .then((r) => {
+        if (!r.data.success || isNull(r.data.data)) {
+          return r.data.message;
         }
-        $cookies?.set("token", r.data.token, r.data.validityInMs as number/1000)
-        $cookies?.set("username", r.data.username, r.data.validityInMs as number/1000)
+        $cookies?.set("token", r.data.data.token, r.data.data.validityInMs as number/1000)
+        $cookies?.set("username", r.data.data.username, r.data.data.validityInMs as number/1000)
         console.log($cookies)
         return ""
     })
