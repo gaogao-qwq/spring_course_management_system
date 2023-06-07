@@ -45,7 +45,10 @@ public class UserinfoController {
         String newPassword = request.get("new_password");
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(username, oldPassword));
-        User user = userRepository.findUserByUsername(username).orElseThrow();
+
+        User user = userRepository.findUserByUsername(
+                ((org.springframework.security.core.userdetails.User) authentication.getPrincipal()).getUsername())
+                .orElseThrow();
         user.setPassword(passwordEncoder.encode(newPassword));
         User entity = userRepository.save(user);
         return R.success().code(ResultCode.SUCCESS.getCode()).data(entity);
