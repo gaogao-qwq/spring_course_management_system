@@ -4,18 +4,17 @@ import com.gaogaoqwq.course_info_management_system_backend.entity.user.User;
 import com.gaogaoqwq.course_info_management_system_backend.repository.user.UserRepository;
 import com.gaogaoqwq.course_info_management_system_backend.response.R;
 import com.gaogaoqwq.course_info_management_system_backend.response.ResultCode;
+import com.gaogaoqwq.course_info_management_system_backend.service.interfaces.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -25,16 +24,11 @@ public class UserinfoController {
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserService userService;
 
     @GetMapping("/")
     public R currentUser(@NotNull @AuthenticationPrincipal UserDetails userDetails) {
-        Map<Object, Object> model = new HashMap<>();
-        model.put("username", userDetails.getUsername());
-        model.put("roles", userDetails.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .toList()
-        );
-        return R.success().data(model);
+        return R.success().data(userService.getUserInfo(userDetails));
     }
 
     @PostMapping("/update")
