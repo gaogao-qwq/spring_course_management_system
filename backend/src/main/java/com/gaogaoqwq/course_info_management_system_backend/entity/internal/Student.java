@@ -24,7 +24,7 @@ public class Student {
     private String codeName;
 
     @Column(name = "student_name", nullable = false)
-    public String name;
+    private String name;
 
     @Column(name = "student_gender", nullable = false)
     private Short gender;
