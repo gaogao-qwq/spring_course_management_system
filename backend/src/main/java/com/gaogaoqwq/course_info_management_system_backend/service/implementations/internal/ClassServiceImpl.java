@@ -20,6 +20,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Service
 public class ClassServiceImpl implements ClassService {
+
     final private ClassRepository classRepository;
     final private MajorRepository majorRepository;
 
@@ -40,6 +41,11 @@ public class ClassServiceImpl implements ClassService {
         }
         cls.setFkMajor(opt.get());
         return classRepository.save(cls);
+    }
+
+    @Override
+    public long getClassCount() {
+        return classRepository.count();
     }
 
     @Override

@@ -33,6 +33,11 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
+    public long getTeacherCount() {
+        return teacherRepository.count();
+    }
+
+    @Override
     public List<Teacher> findTeacherList() {
         return teacherRepository.findAll();
     }

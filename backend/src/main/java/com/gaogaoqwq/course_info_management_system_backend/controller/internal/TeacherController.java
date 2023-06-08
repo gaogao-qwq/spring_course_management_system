@@ -25,6 +25,11 @@ public class TeacherController {
         return R.success().code(ResultCode.SUCCESS.getCode()).data(teacherService.save(teacher));
     }
 
+    @GetMapping("/count")
+    public R count() {
+        return R.success().data(teacherService.getTeacherCount());
+    }
+
     @GetMapping("/all")
     public R fetchTeachers() {
         return R.success().code(ResultCode.SUCCESS.getCode()).data(teacherService.findTeacherList());

@@ -35,6 +35,11 @@ public class MajorServiceImpl implements MajorService {
     }
 
     @Override
+    public long getMajorCount() {
+        return majorRepository.count();
+    }
+
+    @Override
     public List<Major> findMajorList() {
         return majorRepository.findAll();
     }

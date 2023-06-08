@@ -26,6 +26,11 @@ public class ClassController {
         return R.success().code(ResultCode.SUCCESS.getCode()).data(c);
     }
 
+    @GetMapping("/count")
+    public R count() {
+        return R.success().data(classService.getClassCount());
+    }
+
     @GetMapping("/all")
     public R fetchClasses() {
         return R.success().code(ResultCode.SUCCESS.getCode()).data(classService.findClassList());

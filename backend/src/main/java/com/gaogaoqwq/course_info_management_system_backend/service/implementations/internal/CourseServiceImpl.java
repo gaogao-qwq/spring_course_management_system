@@ -44,6 +44,11 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public long getCourseCount() {
+        return courseRepository.count();
+    }
+
+    @Override
     public List<Course> findCourseList() {
         return courseRepository.findAll();
     }

@@ -28,7 +28,12 @@ public class StudentController {
 
     @GetMapping("/all")
     public R fetchStudents() {
-        return R.success().code(ResultCode.SUCCESS.getCode()).data(studentService.findStudentList());
+        return R.success().data(studentService.findStudentList());
+    }
+
+    @GetMapping("/count")
+    public R count() {
+        return R.success().data(studentService.getStudentCount());
     }
 
     @GetMapping("/query")

@@ -11,6 +11,8 @@ import java.util.Optional;
 public interface MajorService {
     Major save(@NotNull Major major) throws SQLException, ParamException;
 
+    long getMajorCount();
+
     List<Major> findMajorList();
 
     Optional<Major> findMajorById(@NotNull Long id);

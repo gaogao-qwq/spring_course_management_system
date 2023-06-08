@@ -27,6 +27,11 @@ public class MajorController {
         return R.success().code(ResultCode.SUCCESS.getCode()).data(mjr);
     }
 
+    @GetMapping("/count")
+    public R count() {
+        return R.success().data(majorService.getMajorCount());
+    }
+
     @GetMapping("/all")
     public R fetchMajors() {
         return R.success().code(ResultCode.SUCCESS.getCode()).data(majorService.findMajorList());

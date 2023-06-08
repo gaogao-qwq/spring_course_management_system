@@ -38,6 +38,11 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public long getStudentCount() {
+        return studentRepository.count();
+    }
+
+    @Override
     public List<Student> findStudentList() {
         return studentRepository.findAll();
     }

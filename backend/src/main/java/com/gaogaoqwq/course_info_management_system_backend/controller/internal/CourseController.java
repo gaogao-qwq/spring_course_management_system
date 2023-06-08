@@ -27,6 +27,11 @@ public class CourseController {
         return R.success().code(ResultCode.SUCCESS.getCode()).data(crs);
     }
 
+    @GetMapping("/count")
+    public R count() {
+        return R.success().data(courseService.getCourseCount());
+    }
+
     @GetMapping("/all")
     public R fetchCourses() {
         return R.success().code(ResultCode.SUCCESS.getCode()).data(courseService.findCourseList());

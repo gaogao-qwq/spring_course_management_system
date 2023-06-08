@@ -28,6 +28,8 @@ public interface StudentService {
      * */
     List<Student> findStudentList();
 
+    long getStudentCount();
+
     /**
      * 在 students 数据表中查询并返回非独特属性 {@link Student#name} 与给定的
      * {@literal name} 相符的 {@link Student} 列表。

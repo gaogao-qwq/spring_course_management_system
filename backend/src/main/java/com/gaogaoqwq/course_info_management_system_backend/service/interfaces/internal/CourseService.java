@@ -16,6 +16,8 @@ public interface CourseService {
     Course save(@NotNull Course course, @NotNull Teacher teacher, @NotNull Class cls)
             throws SQLException, ParamException;
 
+    long getCourseCount();
+
     List<Course> findCourseList();
 
     List<Course> findCoursesByName(@NotNull String name);

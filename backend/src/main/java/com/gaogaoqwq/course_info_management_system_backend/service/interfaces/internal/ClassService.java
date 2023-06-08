@@ -14,6 +14,8 @@ public interface ClassService {
 
     Class save(@NotNull Class cls, @NotNull Major major) throws SQLException, ParamException;
 
+    long getClassCount();
+
     List<Class> findClassList();
 
     List<Class> findClassesByMajorId(@NotNull Long id);

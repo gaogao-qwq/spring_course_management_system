@@ -13,6 +13,8 @@ public interface TeacherService {
 
     Teacher save(@NotNull Teacher teacher) throws SQLException, ParamException;
 
+    long getTeacherCount();
+
     List<Teacher> findTeacherList();
 
     List<Teacher> findTeachersByName(@NotNull String name);
