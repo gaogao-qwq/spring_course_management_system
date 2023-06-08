@@ -1,14 +1,10 @@
 package com.gaogaoqwq.course_info_management_system_backend.service.implementations.internal;
 
 import com.gaogaoqwq.course_info_management_system_backend.entity.internal.Class;
-import com.gaogaoqwq.course_info_management_system_backend.entity.internal.Course;
 import com.gaogaoqwq.course_info_management_system_backend.entity.internal.Student;
 import com.gaogaoqwq.course_info_management_system_backend.exception.QueryException;
 import com.gaogaoqwq.course_info_management_system_backend.repository.internal.ClassRepository;
-import com.gaogaoqwq.course_info_management_system_backend.repository.internal.CourseRepository;
 import com.gaogaoqwq.course_info_management_system_backend.repository.internal.StudentRepository;
-import com.gaogaoqwq.course_info_management_system_backend.response.R;
-import com.gaogaoqwq.course_info_management_system_backend.response.ResultCode;
 import com.gaogaoqwq.course_info_management_system_backend.service.interfaces.internal.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;

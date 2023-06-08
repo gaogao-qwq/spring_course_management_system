@@ -7,7 +7,6 @@ import com.gaogaoqwq.course_info_management_system_backend.exception.QueryExcept
 import com.gaogaoqwq.course_info_management_system_backend.repository.internal.ClassRepository;
 import com.gaogaoqwq.course_info_management_system_backend.repository.internal.MajorRepository;
 import com.gaogaoqwq.course_info_management_system_backend.service.interfaces.internal.ClassService;
-import com.gaogaoqwq.course_info_management_system_backend.service.interfaces.internal.MajorService;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @RequiredArgsConstructor
 @Service

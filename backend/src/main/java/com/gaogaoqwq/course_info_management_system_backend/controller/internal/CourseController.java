@@ -8,7 +8,6 @@ import com.gaogaoqwq.course_info_management_system_backend.response.ResultCode;
 import com.gaogaoqwq.course_info_management_system_backend.service.interfaces.internal.CourseService;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
@@ -38,7 +37,7 @@ public class CourseController {
     }
 
     @GetMapping("/query")
-    public R query(@RequestParam @NotNull Map<String, String> params) throws SQLException, ParamException {
+    public R query(@RequestParam @NotNull Map<String, String> params) throws ParamException {
         if (params.isEmpty()) {
             throw new ParamException("空参数", ResultCode.PARAM_ERROR.getCode());
         }

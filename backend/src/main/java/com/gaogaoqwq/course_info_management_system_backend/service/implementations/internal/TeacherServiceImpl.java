@@ -1,10 +1,8 @@
 package com.gaogaoqwq.course_info_management_system_backend.service.implementations.internal;
 
-import com.gaogaoqwq.course_info_management_system_backend.entity.internal.Course;
 import com.gaogaoqwq.course_info_management_system_backend.entity.internal.Teacher;
 import com.gaogaoqwq.course_info_management_system_backend.exception.ParamException;
 import com.gaogaoqwq.course_info_management_system_backend.exception.QueryException;
-import com.gaogaoqwq.course_info_management_system_backend.repository.internal.CourseRepository;
 import com.gaogaoqwq.course_info_management_system_backend.repository.internal.TeacherRepository;
 import com.gaogaoqwq.course_info_management_system_backend.service.interfaces.internal.TeacherService;
 import lombok.RequiredArgsConstructor;
