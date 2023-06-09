@@ -55,11 +55,11 @@ public class JwtTokenAuthenticationFilter extends GenericFilterBean {
         String bearerToken = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (bearerToken == null ||  bearerToken.isEmpty()) {
             String cookies = request.getHeader("cookie");
-            int tokenIndex = cookies == null ? -1 : cookies.indexOf("token=");
-            bearerToken = HEADER_PREFIX + (
-                    tokenIndex == -1
-                    ? null
-                    : cookies.substring(tokenIndex+6, cookies.indexOf(';')));
+            if (cookies == null) {
+                return Optional.empty();
+            }
+            int tokenIndex = cookies.indexOf("token=");
+            bearerToken = HEADER_PREFIX + cookies.substring(tokenIndex+6, cookies.indexOf(';'));
         }
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(HEADER_PREFIX)) {
             return Optional.of(bearerToken.substring(7));
