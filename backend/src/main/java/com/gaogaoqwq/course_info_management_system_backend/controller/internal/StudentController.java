@@ -52,13 +52,13 @@ public class StudentController {
         if (params.containsKey("id")) {
             Long id = Long.valueOf(params.get("id"));
             Optional<Student> opt = studentService.findStudentById(id);
-            return opt.map(student -> R.success().code(ResultCode.SUCCESS.getCode()).data(student))
+            return opt.map(student -> R.success().data(student))
                     .orElseThrow(() -> new QueryException("未找到参数对应的学生"));
         }
         if (params.containsKey("code_name")) {
             String codeName = params.get("code_name");
             Optional<Student> opt = studentService.findStudentByCodeName(codeName);
-            return opt.map(student -> R.success().code(ResultCode.SUCCESS.getCode()).data(student))
+            return opt.map(student -> R.success().data(student))
                     .orElseThrow(() -> new QueryException("未找到参数对应的学生"));
         }
 
@@ -138,7 +138,7 @@ public class StudentController {
         if (result.isEmpty()) {
             throw new QueryException("未找到符合条件筛选的学生");
         }
-        return R.success().code(ResultCode.SUCCESS.getCode()).data(result);
+        return R.success().data(result);
     }
 
     @PutMapping("/update")

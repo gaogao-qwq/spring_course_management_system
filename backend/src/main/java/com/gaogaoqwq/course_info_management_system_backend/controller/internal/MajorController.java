@@ -34,7 +34,7 @@ public class MajorController {
 
     @GetMapping("/all")
     public R fetchMajors() {
-        return R.success().code(ResultCode.SUCCESS.getCode()).data(majorService.findMajorList());
+        return R.success().data(majorService.findMajorList());
     }
 
     @GetMapping("/query")
@@ -52,19 +52,19 @@ public class MajorController {
         if (params.containsKey("id")) {
             Long id = Long.valueOf(params.get("id"));
             Optional<Major> opt = majorService.findMajorById(id);
-            return opt.map(major -> R.success().code(ResultCode.SUCCESS.getCode()).data(major))
+            return opt.map(major -> R.success().data(major))
                     .orElseGet(() -> R.failure().code(ResultCode.NOT_FOUND.getCode()).message("未找到参数对应的专业"));
         }
         if (params.containsKey("code_name")) {
             String codeName = params.get("code_name");
             Optional<Major> opt = majorService.findMajorByCodeName(codeName);
-            return opt.map(major -> R.success().code(ResultCode.SUCCESS.getCode()).data(major))
+            return opt.map(major -> R.success().data(major))
                     .orElseGet(() -> R.failure().code(ResultCode.NOT_FOUND.getCode()).message("未找到参数对应的专业"));
         }
         if (params.containsKey("name")) {
             String name = params.get("name");
             Optional<Major> opt = majorService.findMajorByName(name);
-            return opt.map(major -> R.success().code(ResultCode.SUCCESS.getCode()).data(major))
+            return opt.map(major -> R.success().data(major))
                     .orElseGet(() -> R.failure().code(ResultCode.NOT_FOUND.getCode()).message("未找到参数对应的专业"));
         }
         throw new ParamException("参数错误", ResultCode.PARAM_ERROR.getCode());
@@ -73,6 +73,6 @@ public class MajorController {
     @PutMapping("/update")
     public R update(@RequestBody Major major) throws SQLException {
         Major mjr = majorService.update(major);
-        return R.success().code(ResultCode.SUCCESS.getCode()).data(mjr);
+        return R.success().data(mjr);
     }
 }

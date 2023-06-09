@@ -50,13 +50,13 @@ public class TeacherController {
         if (params.containsKey("id")) {
             Long id = Long.valueOf(params.get("id"));
             Optional<Teacher> opt = teacherService.findTeacherById(id);
-            return opt.map(teacher -> R.success().code(ResultCode.SUCCESS.getCode()).data(opt.get()))
+            return opt.map(teacher -> R.success().data(opt.get()))
                     .orElseThrow(() -> new QueryException("未找到参数对应的教师"));
         }
         if (params.containsKey("code_name")) {
             String codeName = params.get("code_name");
             Optional<Teacher> opt = teacherService.findTeacherByCodeName(codeName);
-            return opt.map(teacher -> R.success().code(ResultCode.SUCCESS.getCode()).data(opt.get()))
+            return opt.map(teacher -> R.success().data(opt.get()))
                     .orElseThrow(() -> new QueryException("未找到参数对应的教师"));
         }
 
@@ -95,13 +95,13 @@ public class TeacherController {
         if (result.isEmpty()) {
             throw new QueryException("未找到符合条件筛选的教师");
         }
-        return R.success().code(ResultCode.SUCCESS.getCode()).data(result);
+        return R.success().data(result);
     }
 
     @PutMapping("/update")
     public R update(@RequestBody Teacher teacher) {
         Teacher tch = teacherService.update(teacher);
-        return R.success().code(ResultCode.SUCCESS.getCode()).data(tch);
+        return R.success().data(tch);
     }
 
 }

@@ -33,7 +33,7 @@ public class CourseController {
 
     @GetMapping("/all")
     public R fetchCourses() {
-        return R.success().code(ResultCode.SUCCESS.getCode()).data(courseService.findCourseList());
+        return R.success().data(courseService.findCourseList());
     }
 
     @GetMapping("/query")
@@ -51,13 +51,13 @@ public class CourseController {
         if (params.containsKey("id")) {
             Long id = Long.valueOf(params.get("id"));
             Optional<Course> opt = courseService.findCourseById(id);
-            return opt.map(student -> R.success().code(ResultCode.SUCCESS.getCode()).data(student))
+            return opt.map(student -> R.success().data(student))
                     .orElseThrow(() -> new QueryException("未找到参数对应的课程"));
         }
         if (params.containsKey("code_name")) {
             String codeName = params.get("code_name");
             Optional<Course> opt = courseService.findCourseByCodeName(codeName);
-            return opt.map(student -> R.success().code(ResultCode.SUCCESS.getCode()).data(student))
+            return opt.map(student -> R.success().data(student))
                     .orElseThrow(() -> new QueryException("未找到参数对应的课程"));
         }
 
@@ -119,13 +119,13 @@ public class CourseController {
         if (result.isEmpty()) {
             throw new QueryException("未找到符合条件筛选的课程");
         }
-        return R.success().code(ResultCode.SUCCESS.getCode()).data(result);
+        return R.success().data(result);
     }
 
     @PutMapping("/update")
     public R update(@RequestBody Course course) throws QueryException {
         Course crs = courseService.update(course);
-        return R.success().code(ResultCode.SUCCESS.getCode()).data(crs);
+        return R.success().data(crs);
     }
 
 }

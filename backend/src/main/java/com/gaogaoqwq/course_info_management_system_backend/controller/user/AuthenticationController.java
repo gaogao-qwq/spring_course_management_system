@@ -39,9 +39,7 @@ public class AuthenticationController {
                 "token", token,
                 "validityInMs", jwtProperties.getValidityInMs()
         );
-        return R.success()
-                .code(ResultCode.SUCCESS.getCode())
-                .data(data);
+        return R.success().data(data);
     }
 
 }

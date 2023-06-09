@@ -33,7 +33,7 @@ public class ClassController {
 
     @GetMapping("/all")
     public R fetchClasses() {
-        return R.success().code(ResultCode.SUCCESS.getCode()).data(classService.findClassList());
+        return R.success().data(classService.findClassList());
     }
 
     @GetMapping("/query")
@@ -52,19 +52,19 @@ public class ClassController {
         if (params.containsKey("id")) {
             Long id = Long.valueOf(params.get("id"));
             Optional<Class> opt = classService.findClassById(id);
-            return opt.map(student -> R.success().code(ResultCode.SUCCESS.getCode()).data(student))
+            return opt.map(student -> R.success().data(student))
                     .orElseThrow(() -> new QueryException("未找到参数对应的班级"));
         }
         if (params.containsKey("code_name")) {
             String codeName = params.get("code_name");
             Optional<Class> opt = classService.findClassByCodeName(codeName);
-            return opt.map(student -> R.success().code(ResultCode.SUCCESS.getCode()).data(student))
+            return opt.map(student -> R.success().data(student))
                     .orElseThrow(() -> new QueryException("未找到参数对应的班级"));
         }
         if (params.containsKey("name")) {
             String name = params.get("name");
             Optional<Class> opt = classService.findClassByCodeName(name);
-            return opt.map(student -> R.success().code(ResultCode.SUCCESS.getCode()).data(student))
+            return opt.map(student -> R.success().data(student))
                     .orElseThrow(() -> new QueryException("未找到参数对应的班级"));
         }
 
@@ -96,12 +96,12 @@ public class ClassController {
             }
         }
 
-        return R.success().code(ResultCode.SUCCESS.getCode()).data(result);
+        return R.success().data(result);
     }
 
     @PutMapping("/update")
     public R update(@RequestBody Class cls) {
         Class c = classService.updateClass(cls);
-        return R.success().code(ResultCode.SUCCESS.getCode()).data(c);
+        return R.success().data(c);
     }
 }
