@@ -38,7 +38,6 @@ const rules = reactive<FormRules>({
 })
 
 const onLogin = async (formEl: FormInstance | undefined) => {
-  console.log(formEl)
   if (isUndefined(formEl) || isNull(formEl)) return
 
   formEl?.validate(async (valid) => {
@@ -68,7 +67,7 @@ const onLogin = async (formEl: FormInstance | undefined) => {
       dialogVisible.value = true
       return
     }
-    router.push("/admin")
+    router.push("/admin/home")
   })
 }
 </script>
@@ -137,9 +136,9 @@ const onLogin = async (formEl: FormInstance | undefined) => {
 
 <style scoped>
   .container {
-    /* align-items: center; */
     justify-content: center;
     display: flex;
+    height: 100vh;
   }
   .login-form {
     position: relative;
