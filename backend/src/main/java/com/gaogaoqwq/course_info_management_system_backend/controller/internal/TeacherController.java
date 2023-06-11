@@ -1,6 +1,5 @@
 package com.gaogaoqwq.course_info_management_system_backend.controller.internal;
 
-import com.gaogaoqwq.course_info_management_system_backend.entity.internal.Course;
 import com.gaogaoqwq.course_info_management_system_backend.entity.internal.Teacher;
 import com.gaogaoqwq.course_info_management_system_backend.exception.ParamException;
 import com.gaogaoqwq.course_info_management_system_backend.exception.QueryException;
