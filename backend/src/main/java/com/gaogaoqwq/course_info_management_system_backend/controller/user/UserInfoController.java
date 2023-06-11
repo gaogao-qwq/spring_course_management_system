@@ -1,11 +1,9 @@
 package com.gaogaoqwq.course_info_management_system_backend.controller.user;
 
-import com.gaogaoqwq.course_info_management_system_backend.entity.user.User;
 import com.gaogaoqwq.course_info_management_system_backend.response.R;
 import com.gaogaoqwq.course_info_management_system_backend.service.interfaces.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
