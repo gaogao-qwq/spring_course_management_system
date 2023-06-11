@@ -10,10 +10,6 @@ const props = defineProps({
 const circleAvatarUrl = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
 const $cookies = inject<VueCookies>('$cookies');
 
-const activeIndex = computed(() => {
-  return router.currentRoute.value.path
-})
-
 const handleRouting = (path: string) => {
   router.push(path)
 }
