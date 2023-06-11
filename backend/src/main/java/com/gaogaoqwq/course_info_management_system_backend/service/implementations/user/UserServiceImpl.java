@@ -15,7 +15,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -43,9 +45,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<User> getUserByPage(@NotNull Integer page, @NotNull Integer size) {
+    public List<Map<Object, Object>> getUserInfoByPage(@NotNull Integer page, @NotNull Integer size) {
+        List<Map<Object, Object>> pages = new ArrayList<>();
         PageRequest pageRequest = PageRequest.of(page, size);
-        return userRepository.findAll(pageRequest);
+        Page<User> userPage = userRepository.findAll(pageRequest);
+        for (var user : userPage) {
+            pages.add(Map.of(
+                "username", user.getUsername(),
+                "roles", user.getAuthorities().stream()
+                        .map(GrantedAuthority::getAuthority)
+                        .toList()
+            ));
+        }
+        return pages;
     }
 
     @Override

@@ -10,6 +10,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -31,8 +32,8 @@ public class UserInfoController {
         if (size.isEmpty()) {
             size = Optional.of(10);
         }
-        Page<User> userPage = userService.getUserByPage(page, size.get());
-        return R.success().data(userPage.getContent());
+        List<Map<Object, Object>> userPage = userService.getUserInfoByPage(page, size.get());
+        return R.success().data(userPage);
     }
 
     @GetMapping("/count")
