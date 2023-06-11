@@ -9,6 +9,8 @@ import com.gaogaoqwq.course_info_management_system_backend.repository.internal.M
 import com.gaogaoqwq.course_info_management_system_backend.service.interfaces.internal.ClassService;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -49,6 +51,11 @@ public class ClassServiceImpl implements ClassService {
     @Override
     public List<Class> findClassList() {
         return classRepository.findAll();
+    }
+
+    @Override
+    public Page<Class> getClassByPage(@NotNull Integer page, @NotNull Integer size) {
+        return classRepository.findAll(PageRequest.of(page, size));
     }
 
     @Override

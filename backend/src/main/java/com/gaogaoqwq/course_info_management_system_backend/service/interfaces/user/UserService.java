@@ -2,6 +2,7 @@ package com.gaogaoqwq.course_info_management_system_backend.service.interfaces.u
 
 import com.gaogaoqwq.course_info_management_system_backend.entity.user.User;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Map;
@@ -11,6 +12,8 @@ public interface UserService {
     Map<Object, Object> getUserInfo(@NotNull UserDetails userDetails);
 
     long getUserCount();
+
+    Page<User> getUserByPage(@NotNull Integer size, @NotNull Integer page);
 
     User updateUserInfo(@NotNull Map<String, String> request);
 }

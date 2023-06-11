@@ -5,6 +5,7 @@ import com.gaogaoqwq.course_info_management_system_backend.entity.internal.Major
 import com.gaogaoqwq.course_info_management_system_backend.exception.ParamException;
 import com.gaogaoqwq.course_info_management_system_backend.exception.QueryException;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.data.domain.Page;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -17,6 +18,8 @@ public interface ClassService {
     long getClassCount();
 
     List<Class> findClassList();
+
+    Page<Class> getClassByPage(@NotNull Integer page, @NotNull Integer size);
 
     List<Class> findClassesByMajorId(@NotNull Long id);
 

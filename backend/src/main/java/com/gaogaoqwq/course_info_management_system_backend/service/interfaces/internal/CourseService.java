@@ -6,6 +6,7 @@ import com.gaogaoqwq.course_info_management_system_backend.entity.internal.Teach
 import com.gaogaoqwq.course_info_management_system_backend.exception.ParamException;
 import com.gaogaoqwq.course_info_management_system_backend.exception.QueryException;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.data.domain.Page;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -19,6 +20,8 @@ public interface CourseService {
     long getCourseCount();
 
     List<Course> findCourseList();
+
+    Page<Course> getCourseByPage(@NotNull Integer page, @NotNull Integer size);
 
     List<Course> findCoursesByName(@NotNull String name);
 

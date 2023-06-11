@@ -4,6 +4,7 @@ import com.gaogaoqwq.course_info_management_system_backend.entity.internal.Teach
 import com.gaogaoqwq.course_info_management_system_backend.exception.ParamException;
 import com.gaogaoqwq.course_info_management_system_backend.exception.QueryException;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.data.domain.Page;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -16,6 +17,8 @@ public interface TeacherService {
     long getTeacherCount();
 
     List<Teacher> findTeacherList();
+
+    Page<Teacher> getTeacherByPage(@NotNull Integer page, @NotNull Integer size);
 
     List<Teacher> findTeachersByName(@NotNull String name);
 

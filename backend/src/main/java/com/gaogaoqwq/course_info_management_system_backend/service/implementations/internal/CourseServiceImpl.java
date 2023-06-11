@@ -11,6 +11,8 @@ import com.gaogaoqwq.course_info_management_system_backend.repository.internal.T
 import com.gaogaoqwq.course_info_management_system_backend.service.interfaces.internal.CourseService;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -51,6 +53,11 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<Course> findCourseList() {
         return courseRepository.findAll();
+    }
+
+    @Override
+    public Page<Course> getCourseByPage(@NotNull Integer page, @NotNull Integer size) {
+        return courseRepository.findAll(PageRequest.of(page, size));
     }
 
     @Override

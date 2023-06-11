@@ -6,6 +6,7 @@ import com.gaogaoqwq.course_info_management_system_backend.entity.internal.Class
 import com.gaogaoqwq.course_info_management_system_backend.entity.internal.Major;
 import com.gaogaoqwq.course_info_management_system_backend.exception.QueryException;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.data.domain.Page;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -29,6 +30,8 @@ public interface StudentService {
     List<Student> findStudentList();
 
     long getStudentCount();
+
+    Page<Student> getStudentByPage(@NotNull Integer page, @NotNull Integer size);
 
     /**
      * 在 students 数据表中查询并返回非独特属性 {@link Student#name} 与给定的

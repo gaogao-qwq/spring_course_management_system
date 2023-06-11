@@ -3,6 +3,7 @@ package com.gaogaoqwq.course_info_management_system_backend.service.interfaces.i
 import com.gaogaoqwq.course_info_management_system_backend.entity.internal.Major;
 import com.gaogaoqwq.course_info_management_system_backend.exception.ParamException;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.data.domain.Page;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -14,6 +15,8 @@ public interface MajorService {
     long getMajorCount();
 
     List<Major> findMajorList();
+
+    Page<Major> getMajorByPage(@NotNull Integer page, @NotNull Integer size);
 
     Optional<Major> findMajorById(@NotNull Long id);
 

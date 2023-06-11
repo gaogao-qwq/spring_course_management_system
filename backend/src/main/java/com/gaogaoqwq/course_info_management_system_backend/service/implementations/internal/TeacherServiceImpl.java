@@ -7,6 +7,8 @@ import com.gaogaoqwq.course_info_management_system_backend.repository.internal.T
 import com.gaogaoqwq.course_info_management_system_backend.service.interfaces.internal.TeacherService;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -38,6 +40,11 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public List<Teacher> findTeacherList() {
         return teacherRepository.findAll();
+    }
+
+    @Override
+    public Page<Teacher> getTeacherByPage(@NotNull Integer page, @NotNull Integer size) {
+        return teacherRepository.findAll(PageRequest.of(page, size));
     }
 
     @Override

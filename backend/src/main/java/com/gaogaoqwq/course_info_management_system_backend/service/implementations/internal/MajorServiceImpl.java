@@ -6,6 +6,8 @@ import com.gaogaoqwq.course_info_management_system_backend.repository.internal.M
 import com.gaogaoqwq.course_info_management_system_backend.service.interfaces.internal.MajorService;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -40,6 +42,11 @@ public class MajorServiceImpl implements MajorService {
     @Override
     public List<Major> findMajorList() {
         return majorRepository.findAll();
+    }
+
+    @Override
+    public Page<Major> getMajorByPage(@NotNull Integer page, @NotNull Integer size) {
+        return majorRepository.findAll(PageRequest.of(page, size));
     }
 
     @Override

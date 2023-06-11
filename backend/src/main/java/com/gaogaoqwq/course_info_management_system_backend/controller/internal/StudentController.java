@@ -8,6 +8,7 @@ import com.gaogaoqwq.course_info_management_system_backend.response.ResultCode;
 import com.gaogaoqwq.course_info_management_system_backend.service.interfaces.internal.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
@@ -35,6 +36,24 @@ public class StudentController {
     public R count() {
         return R.success().data(studentService.getStudentCount());
     }
+
+    @GetMapping("/")
+    public R fetchByPage(@RequestParam(name = "page") Integer page,
+                         @RequestParam(name = "size", required = false) @NotNull Optional<Integer> size) {
+        if (size.isEmpty()) {
+            size = Optional.of(10);
+        }
+        Page<Student> studentPage = studentService.getStudentByPage(page, size.get());
+        return R.success().data(studentPage.getContent());
+    }
+
+//    @RequestParam(name = "id", required = false) Optional<String> id,
+//    @RequestParam(name = "code_name", required = false) Optional<String> codeName,
+//    @RequestParam(name = "name", required = false) Optional<String> name,
+//    @RequestParam(name = "gender", required = false) Optional<String> gender,
+//    @RequestParam(name = "class_id", required = false) Optional<String> classId,
+//    @RequestParam(name = "class_name", required = false) Optional<String> className,
+//    @RequestParam(name = "course_id", required = false) Optional<String> courseId
 
     @GetMapping("/query")
     public R query(@RequestParam @NotNull Map<String, String> params) {

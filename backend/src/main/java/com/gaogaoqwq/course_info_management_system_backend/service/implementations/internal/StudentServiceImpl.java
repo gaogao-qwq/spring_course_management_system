@@ -8,6 +8,8 @@ import com.gaogaoqwq.course_info_management_system_backend.repository.internal.S
 import com.gaogaoqwq.course_info_management_system_backend.service.interfaces.internal.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -36,6 +38,11 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public long getStudentCount() {
         return studentRepository.count();
+    }
+
+    @Override
+    public Page<Student> getStudentByPage(@NotNull Integer page, @NotNull Integer size) {
+        return studentRepository.findAll(PageRequest.of(page, size));
     }
 
     @Override

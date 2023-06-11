@@ -7,6 +7,7 @@ import com.gaogaoqwq.course_info_management_system_backend.response.ResultCode;
 import com.gaogaoqwq.course_info_management_system_backend.service.interfaces.internal.MajorService;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
@@ -30,6 +31,16 @@ public class MajorController {
     @GetMapping("/count")
     public R count() {
         return R.success().data(majorService.getMajorCount());
+    }
+
+    @GetMapping("/")
+    public R fetchByPage(@RequestParam(name = "page") Integer page,
+                         @RequestParam(name = "size", required = false) @NotNull Optional<Integer> size) {
+        if (size.isEmpty()) {
+            size = Optional.of(10);
+        }
+        Page<Major> majorPage = majorService.getMajorByPage(page, size.get());
+        return R.success().data(majorPage.getContent());
     }
 
     @GetMapping("/all")

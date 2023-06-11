@@ -5,6 +5,9 @@ import com.gaogaoqwq.course_info_management_system_backend.repository.user.UserR
 import com.gaogaoqwq.course_info_management_system_backend.service.interfaces.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -13,7 +16,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.PageFormat;
+import java.awt.print.Pageable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -38,6 +44,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public long getUserCount() {
         return userRepository.count();
+    }
+
+    @Override
+    public Page<User> getUserByPage(@NotNull Integer page, @NotNull Integer size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        return userRepository.findAll(pageRequest);
     }
 
     @Override
