@@ -14,7 +14,7 @@ const handleSelect = (key: string, keyPath: string[]) => {
 </script>
 
 <template>
-  <el-container style="height: 800px">
+  <el-container class="main-container">
     <el-aside width="20%">
       <el-menu
         :default-active="activeIndex"
@@ -23,13 +23,33 @@ const handleSelect = (key: string, keyPath: string[]) => {
         :ellipsis="false"
         @select="handleSelect"
       >
-        <el-menu-item index="/home">
+        <el-menu-item index="/admin/home">
           <el-icon><HomeFilled /></el-icon>
           <span>主页</span>
         </el-menu-item>
-        <el-menu-item index="/student">
-          <el-icon><HomeFilled /></el-icon>
+        <el-menu-item index="/admin/student">
+          <el-icon><Postcard /></el-icon>
           <span>学生管理</span>
+        </el-menu-item>
+        <el-menu-item index="/admin/class">
+          <el-icon><DataBoard /></el-icon>
+          <span>班级管理</span>
+        </el-menu-item>
+        <el-menu-item index="/admin/teacher">
+          <el-icon><Avatar /></el-icon>
+          <span>教师管理</span>
+        </el-menu-item>
+        <el-menu-item index="/admin/major">
+          <el-icon><Management /></el-icon>
+          <span>专业管理</span>
+        </el-menu-item>
+        <el-menu-item index="/admin/course">
+          <el-icon><Reading /></el-icon>
+          <span>课程管理</span>
+        </el-menu-item>
+        <el-menu-item index="/admin/user">
+          <el-icon><UserFilled /></el-icon>
+          <span>用户管理</span>
         </el-menu-item>
       </el-menu>
     </el-aside>
@@ -41,7 +61,9 @@ const handleSelect = (key: string, keyPath: string[]) => {
     
       <el-main>
         <Suspense>
-          <RouterView/>
+          <el-scrollbar>
+            <RouterView/>
+          </el-scrollbar>
         </Suspense>
       </el-main>
 
@@ -54,16 +76,31 @@ const handleSelect = (key: string, keyPath: string[]) => {
 </template>
 
 <style scoped>
+  .main-container {
+    height: 100vh;
+  }
+
   .el-header {
     position: relative;
     background-color: var(--el-color-primary-light-7);
     color: var(--el-text-color-primary);
   }
+
   .el-aside {
+    position: relative;
     color: var(--el-text-color-primary);
-    background: var(--el-color-primary-light-8);
+    background: var(--el-color-primary-light-5);
   }
-  .el-menu {
-    border-right: none;
+
+  .el-main {
+    padding: 10px;
+    position: relative;
+    width: 100%;
+  }
+
+  .el-footer {
+    position: relative;
+    color: var(--el-text-color-primary);
+    background: var(--el-color-primary-light-7);
   }
 </style>
