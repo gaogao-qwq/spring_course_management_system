@@ -44,7 +44,7 @@ public class DataInitializer implements CommandLineRunner {
     final private PasswordEncoder passwordEncoder;
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         Student std1 = Student.builder()
                 .id(0L)
                 .codeName("10001")

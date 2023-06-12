@@ -75,7 +75,7 @@ public class GlobalExceptionHandler {
     public R QueryExceptionHandler(@NotNull QueryException e) {
         return R.failure()
                 .code(ResultCode.NOT_FOUND.getCode())
-                .message(ResultCode.NOT_FOUND.getMessage());
+                .message(e.getMessage());
     }
 
     @ResponseBody
@@ -83,7 +83,7 @@ public class GlobalExceptionHandler {
     public R SQLExceptionHandler(@NotNull SQLException e) {
         return R.failure()
                 .code(ResultCode.CONFLICT.getCode())
-                .message(ResultCode.CONFLICT.getMessage());
+                .message(e.getMessage());
     }
 
 }
