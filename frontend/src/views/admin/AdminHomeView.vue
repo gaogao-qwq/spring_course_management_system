@@ -81,6 +81,7 @@ let userCount = ref(await GetUserCountApi
   <div class="card-info-block">
     <el-row :gutter="30">
       <el-col :span="8">
+
         <router-link to="/admin/student">
           <el-card class="info-card" shadow="hover">
             <el-space direction="vertical">
@@ -92,63 +93,85 @@ let userCount = ref(await GetUserCountApi
             </el-space>
           </el-card>
         </router-link>
+
       </el-col>
       <el-col :span="8">
-        <el-card class="info-card" shadow="hover">
-          <el-space direction="vertical">
-            <el-space direction="horizontal">
-              <el-icon color="var(--el-color-primary)"><DataBoard /></el-icon>
-              <el-text type="primary" size="large">班级</el-text>
+
+        <router-link to="/admin/student">
+          <el-card class="info-card" shadow="hover">
+            <el-space direction="vertical">
+              <el-space direction="horizontal">
+                <el-icon color="var(--el-color-primary)"><DataBoard /></el-icon>
+                <el-text type="primary" size="large">班级</el-text>
+              </el-space>
+              <el-text>共有 {{ classCount }}个班级</el-text>
             </el-space>
-            <el-text>共有 {{ classCount }}个班级</el-text>
-          </el-space>
-        </el-card>
+          </el-card>
+        </router-link>
+
       </el-col>
       <el-col :span="8">
-        <el-card class="info-card" shadow="hover">
-          <el-space direction="vertical">
-            <el-space direction="horizontal">
-              <el-icon color="var(--el-color-primary)"><Avatar /></el-icon>
-              <el-text type="primary" size="large">教师</el-text>
+        
+        <router-link to="/admin/teacher">
+          <el-card class="info-card" shadow="hover">
+            <el-space direction="vertical">
+              <el-space direction="horizontal">
+                <el-icon color="var(--el-color-primary)"><Avatar /></el-icon>
+                <el-text type="primary" size="large">教师</el-text>
+              </el-space>
+              <el-text>共有 {{ teacherCount }}名教师</el-text>
             </el-space>
-            <el-text>共有 {{ teacherCount }}名教师</el-text>
-          </el-space>
-        </el-card>
+          </el-card>
+        </router-link>
+
       </el-col>
     </el-row>
+
     <el-row :gutter="30">
       <el-col :span="8">
-        <el-card class="info-card" shadow="hover">
-          <el-space direction="vertical">
-            <el-space direction="horizontal">
-              <el-icon color="var(--el-color-primary)"><Management /></el-icon>
-              <el-text type="primary" size="large">专业</el-text>
+
+        <router-link to="/admin/major">
+          <el-card class="info-card" shadow="hover">
+            <el-space direction="vertical">
+              <el-space direction="horizontal">
+                <el-icon color="var(--el-color-primary)"><Management /></el-icon>
+                <el-text type="primary" size="large">专业</el-text>
+              </el-space>
+              <el-text>共有 {{ majorCount }}个专业</el-text>
             </el-space>
-            <el-text>共有 {{ majorCount }}个专业</el-text>
-          </el-space>
-        </el-card>
+          </el-card>
+        </router-link>
+
       </el-col>
       <el-col :span="8">
-        <el-card class="info-card" shadow="hover">
-          <el-space direction="vertical">
-            <el-space direction="horizontal">
-              <el-icon color="var(--el-color-primary)"><Reading /></el-icon>
-              <el-text type="primary" size="large">课程</el-text>
+
+        <router-link to="/admin/course">
+          <el-card class="info-card" shadow="hover">
+            <el-space direction="vertical">
+              <el-space direction="horizontal">
+                <el-icon color="var(--el-color-primary)"><Reading /></el-icon>
+                <el-text type="primary" size="large">课程</el-text>
+              </el-space>
+              <el-text>共有 {{ courseCount }}个课程</el-text>
             </el-space>
-            <el-text>共有 {{ courseCount }}个课程</el-text>
-          </el-space>
-        </el-card>
+          </el-card>
+        </router-link>
+
       </el-col>
       <el-col :span="8">
-        <el-card class="info-card" shadow="hover">
-          <el-space direction="vertical">
-            <el-space direction="horizontal">
-              <el-icon color="var(--el-color-primary)"><UserFilled /></el-icon>
-              <el-text type="primary" size="large">用户</el-text>
+
+        <router-link to="/admin/user">
+          <el-card class="info-card" shadow="hover">
+            <el-space direction="vertical">
+              <el-space direction="horizontal">
+                <el-icon color="var(--el-color-primary)"><UserFilled /></el-icon>
+                <el-text type="primary" size="large">用户</el-text>
+              </el-space>
+              <el-text>共有 {{ userCount }}个用户</el-text>
             </el-space>
-            <el-text>共有 {{ userCount }}个用户</el-text>
-          </el-space>
-        </el-card>
+          </el-card>
+        </router-link>
+        
       </el-col>
     </el-row>
     <el-row>
@@ -164,10 +187,6 @@ let userCount = ref(await GetUserCountApi
 <style scoped>
   .card-info-block {
     margin: 10px
-  }
-
-  .info-card {
-    width: 100%;
   }
 
   .el-row {
