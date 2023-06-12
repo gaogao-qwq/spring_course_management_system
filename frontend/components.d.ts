@@ -39,6 +39,7 @@ declare module '@vue/runtime-core' {
     ElSpacing: typeof import('element-plus/es')['ElSpacing']
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
     ElTable: typeof import('element-plus/es')['ElTable']
+    ElTableCol: typeof import('element-plus/es')['ElTableCol']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElText: typeof import('element-plus/es')['ElText']
     Footer: typeof import('./src/components/Footer.vue')['default']
