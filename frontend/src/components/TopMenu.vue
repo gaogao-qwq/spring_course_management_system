@@ -24,7 +24,9 @@ const handleLogout = () => {
 
 <template>
   <div class="toolbar">
-    <span>{{ $cookies.get('username') }}</span>
+    <el-text size="large">教务管理系统</el-text>
+    <div class="flex-grow" />
+    <el-text>{{ $cookies.get('username') }}</el-text>
     <el-dropdown>
       <el-icon style="margin-left: 8px; margin-top: 1px">
         <setting/>
@@ -42,11 +44,14 @@ const handleLogout = () => {
 </template>
 
 <style scoped>
-.toolbar {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  right: 20px;
-}
+  .flex-grow {
+    flex-grow: 1;
+  }
+
+  .toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
 </style>
