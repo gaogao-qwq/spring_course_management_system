@@ -1,3 +1,21 @@
+/*
+ * A RestFUL Web API
+ * Copyright (C) 2023. Zhihao Zhou<gaogaoqwq@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package com.gaogaoqwq.course_info_management_system_backend.service.implementations.user;
 
 import com.gaogaoqwq.course_info_management_system_backend.entity.user.User;
@@ -16,7 +34,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,13 +47,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Map<Object, Object> getUserInfo(@NotNull UserDetails userDetails) {
-        Map<Object, Object> model = new HashMap<>();
-        model.put("username", userDetails.getUsername());
-        model.put("roles", userDetails.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .toList()
-        );
-        return model;
+        return Map.of(
+                "username", userDetails.getUsername(),
+                "roles", userDetails.getAuthorities().stream()
+                        .map(GrantedAuthority::getAuthority)
+                        .toList());
     }
 
     @Override
@@ -51,10 +66,10 @@ public class UserServiceImpl implements UserService {
         Page<User> userPage = userRepository.findAll(pageRequest);
         for (var user : userPage) {
             pages.add(Map.of(
-                "username", user.getUsername(),
-                "roles", user.getAuthorities().stream()
-                        .map(GrantedAuthority::getAuthority)
-                        .toList()
+                    "username", user.getUsername(),
+                    "roles", user.getAuthorities().stream()
+                            .map(GrantedAuthority::getAuthority)
+                            .toList()
             ));
         }
         return pages;
