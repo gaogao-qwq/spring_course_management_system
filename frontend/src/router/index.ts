@@ -11,6 +11,10 @@ import majorManagementView from "@/views/admin/MajorManagementView.vue";
 import courseManagementView from "@/views/admin/CourseManagementView.vue";
 import userManagementView from "@/views/admin/UserManagementView.vue";
 import teacherManagementView from "@/views/admin/TeacherManagementView.vue";
+import { UserInfoApi } from "@/internal/apis";
+import type { User } from '@/internal/types';
+import { isString } from "lodash";
+import { ElMessage } from "element-plus";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -80,8 +84,19 @@ const router = createRouter({
   ],
 });
 
-router.beforeEach((to) => {
-  
+router.beforeEach(async (to, from) => {
+  const resp = await UserInfoApi.get('/user/me')
+    .then((r) => {
+      return r.data.data as User
+  })
+    .catch((reason) => {
+      return reason as string
+  })
+  if (isString(resp)) {
+    ElMessage.error("登陆已过期，请重新登陆。")
+    return '/'
+  }
+  return true
 })
 
 export default router;
