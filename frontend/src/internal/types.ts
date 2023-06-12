@@ -39,7 +39,6 @@ export interface Course {
 }
 
 export interface User {
-  id: number
   username: string
-  role: any[]
+  roles: string[]
 }
