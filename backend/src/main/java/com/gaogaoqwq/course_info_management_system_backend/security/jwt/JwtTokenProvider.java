@@ -20,7 +20,7 @@ package com.gaogaoqwq.course_info_management_system_backend.security.jwt;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
-import javax.crypto.SecretKey;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -31,7 +31,7 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
-import jakarta.annotation.PostConstruct;
+import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Collection;

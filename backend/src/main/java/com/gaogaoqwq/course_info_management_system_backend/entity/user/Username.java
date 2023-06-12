@@ -18,11 +18,10 @@
 
 package com.gaogaoqwq.course_info_management_system_backend.entity.user;
 
+import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import jakarta.persistence.Embeddable;
 
 @Data
 @Embeddable

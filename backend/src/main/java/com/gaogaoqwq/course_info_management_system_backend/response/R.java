@@ -21,9 +21,6 @@ package com.gaogaoqwq.course_info_management_system_backend.response;
 import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Data
 public class R {
 

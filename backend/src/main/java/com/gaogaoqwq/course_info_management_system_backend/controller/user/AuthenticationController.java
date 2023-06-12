@@ -19,13 +19,11 @@
 package com.gaogaoqwq.course_info_management_system_backend.controller.user;
 
 import com.gaogaoqwq.course_info_management_system_backend.response.R;
-import com.gaogaoqwq.course_info_management_system_backend.response.ResultCode;
 import com.gaogaoqwq.course_info_management_system_backend.security.jwt.JwtProperties;
 import com.gaogaoqwq.course_info_management_system_backend.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;

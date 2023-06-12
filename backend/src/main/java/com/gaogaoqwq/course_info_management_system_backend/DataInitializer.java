@@ -97,6 +97,9 @@ public class DataInitializer implements CommandLineRunner {
             userRepository.save(usr1);
             userRepository.save(usr2);
             userRepository.save(usr3);
+            studentRepository.save(std1);
+            studentRepository.save(std2);
+            studentRepository.save(std3);
         }
     }
 

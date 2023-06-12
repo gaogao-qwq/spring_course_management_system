@@ -19,7 +19,10 @@
 package com.gaogaoqwq.course_info_management_system_backend.entity.internal;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 

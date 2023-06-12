@@ -18,10 +18,10 @@
 
 package com.gaogaoqwq.course_info_management_system_backend.service.interfaces.internal;
 
-import com.gaogaoqwq.course_info_management_system_backend.entity.internal.Course;
-import com.gaogaoqwq.course_info_management_system_backend.entity.internal.Student;
 import com.gaogaoqwq.course_info_management_system_backend.entity.internal.Class;
+import com.gaogaoqwq.course_info_management_system_backend.entity.internal.Course;
 import com.gaogaoqwq.course_info_management_system_backend.entity.internal.Major;
+import com.gaogaoqwq.course_info_management_system_backend.entity.internal.Student;
 import com.gaogaoqwq.course_info_management_system_backend.exception.QueryException;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
