@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { auto } from '@popperjs/core';
 
 </script>
 
@@ -7,7 +6,7 @@ import { auto } from '@popperjs/core';
   <div class="footer">
     <el-space direction="vertical">
       <el-text>
-        该网页的前端（Vue3）和后端（Spring）都开源至
+        该网站的前端和后端代码都开源至
         <el-link
           type="primary"
           :underline="true"
@@ -22,6 +21,14 @@ import { auto } from '@popperjs/core';
           href="https://www.gnu.org/licenses/gpl-3.0.en.html"
         >
           GPL-3.0 协议
+        </el-link>
+        和
+        <el-link
+          type="primary"
+          :underline="true"
+          href="https://www.gnu.org/licenses/agpl-3.0.en.html"
+        >
+          AGPL-3.0 协议
         </el-link>
       </el-text>
       <el-text>
