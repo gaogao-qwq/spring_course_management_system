@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import { FetchStudentByPageApi, GetStudentCountApi } from '@/internal/apis';
-import type { Student } from '@/internal/types';
+import { FetchTeacherByPageApi, GetTeacherCountApi } from '@/internal/apis';
+import type { Teacher } from '@/internal/types';
 import { isString } from '@vueuse/shared';
 import { ElMessage, type TableColumnCtx } from 'element-plus';
 import { ref, type Ref } from 'vue';
 
 const handlePageSwitch = async (page: number) => {
-  let resp = await FetchStudentByPageApi.get('/student/', {
+  let resp = await FetchTeacherByPageApi.get('/teacher/', {
     params: {
       page: page-1,
       size: tableSize.value
@@ -17,37 +17,37 @@ const handlePageSwitch = async (page: number) => {
     return reason as string
   })
   if (isString(resp)) {
-    ElMessage.error("获取学生数据失败")
+    ElMessage.error("获取教师数据失败")
     return
   }
   currentPage.value = page;
   tableData.value = resp;
 }
 
-let studentCount = ref(await GetStudentCountApi
-  .get('/student/count')
+let teacherCount = ref(await GetTeacherCountApi
+  .get('/teacher/count')
   .then((r) => {
   return r.data.data
 }).catch(() => {
-  ElMessage.error("获取学生数失败")
+  ElMessage.error("获取教师数失败")
   return NaN
 }));
 
-const currentPage = ref(1)
-const tableSize = ref(10)
-const tableData: Ref<Student[]> = ref([])
+const handleEdit = (index: number, row: Teacher) => {
 
-const genderFormatter = (row: Student, column: TableColumnCtx<Student>, cellValue: number) => {
+}
+
+const genderFormatter = (row: Teacher, column: TableColumnCtx<Teacher>, cellValue: number) => {
   return cellValue === 0 ? "男" : "女"
 };
 
-const dateFormatter = (row: Student, column: TableColumnCtx<Student>, cellValue: string) => {
+const dateFormatter = (row: Teacher, column: TableColumnCtx<Teacher>, cellValue: string) => {
   return cellValue.slice(0, 10)
 };
 
-const handleEdit = (index: number, row: Student) => {
-
-}
+const currentPage = ref(1)
+const tableSize = ref(10)
+const tableData: Ref<Teacher[]> = ref([])
 
 await handlePageSwitch(currentPage.value)
 </script>
@@ -55,14 +55,12 @@ await handlePageSwitch(currentPage.value)
 <template>
   <el-card class="container-card">
     <el-table :data="tableData" stripe max-height="630px">
-      <el-table-column fixed="left" prop="codeName" label="学号" min-width="120" />
-      <el-table-column prop="name" label="姓名" min-width="150" />
+      <el-table-column fixed="left" prop="codeName" label="教师号" min-width="120" />
+      <el-table-column prop="name" label="教师名" min-width="150" />
       <el-table-column prop="gender" label="性别" min-width="55" :formatter="genderFormatter" />
-      <el-table-column prop="admissionDate" label="入学日期" min-width="100" :formatter="dateFormatter" />
+      <el-table-column prop="admissionDate" label="入职日期" min-width="100" :formatter="dateFormatter" />
       <el-table-column prop="birthDate" label="出生日期" min-width="100" :formatter="dateFormatter" />
-      <el-table-column prop="fkClass.name" label="班级" min-width="225" />
-      <el-table-column prop="fkClass.fkMajor.name" label="专业" min-width="200" />
-      <el-table-column fixed="right" prop="operation" label="操作" width="60">
+      <el-table-column fixed="right" label="操作" width="60">
         <template #default="scope">
           <el-button
             type="primary"
@@ -81,7 +79,7 @@ await handlePageSwitch(currentPage.value)
         :page-size="tableSize"
         layout="prev, pager, next, jumper"
         :current-page="currentPage" 
-        :total="studentCount"
+        :total="teacherCount"
         @current-change="handlePageSwitch"
       />
     </div>
