@@ -7,12 +7,32 @@ import { auto } from '@popperjs/core';
   <div class="footer">
     <el-space direction="vertical">
       <el-text>
-        Release under the 
-        <el-link href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPL-3.0 license</el-link>
+        该网页的前端（Vue3）和后端（Spring）都开源至
+        <el-link
+          type="primary"
+          :underline="true"
+          href="https://github.com/gaogao-qwq/spring_course_management_system"
+        >
+          GitHub 
+        </el-link> 
+        并自豪地使用 
+        <el-link
+          type="primary"
+          :underline="true"
+          href="https://www.gnu.org/licenses/gpl-3.0.en.html"
+        >
+          GPL-3.0 协议
+        </el-link>
       </el-text>
       <el-text>
         Made with ❤️ by 
-        <el-link href="https://github.com/gaogao-qwq">gaogao_qwq</el-link>
+        <el-link
+          type="primary"
+          :underline="true"
+          href="https://github.com/gaogao-qwq"
+        >
+          gaogao_qwq
+        </el-link>
       </el-text>
     </el-space>
   </div>
@@ -21,8 +41,6 @@ import { auto } from '@popperjs/core';
 <style scoped>
 .footer {
   position: relative;
-  height: auto;
-  box-sizing: border-box;
   text-align: center;
 }
 </style>
