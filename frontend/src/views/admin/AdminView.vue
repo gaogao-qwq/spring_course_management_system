@@ -61,9 +61,7 @@ const handleSelect = (key: string, keyPath: string[]) => {
     
       <el-main>
         <Suspense>
-          <el-scrollbar>
-            <RouterView/>
-          </el-scrollbar>
+          <RouterView/>
         </Suspense>
       </el-main>
 
@@ -100,6 +98,8 @@ const handleSelect = (key: string, keyPath: string[]) => {
 
   .el-footer {
     position: relative;
+    height: 100px;
+    padding: 10px;
     color: var(--el-text-color-primary);
     background: var(--el-color-primary-light-7);
   }
