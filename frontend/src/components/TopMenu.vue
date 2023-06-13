@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { computed, inject } from 'vue'
-import router from '@/router'
 import type { VueCookies } from 'vue-cookies';
+import { useRouter } from 'vue-router';
+
+const router = useRouter()
 
 const props = defineProps({
   role: String

@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { ref, reactive, inject } from 'vue';
 import { isEmpty, isNull, isUndefined } from 'lodash';
-import router from '@/router';
 import { LoginApi } from '@/internal/apis';
 import type { VueCookies } from 'vue-cookies';
 import { ElDialog, type FormInstance, type FormRules } from 'element-plus';
 import type { Response } from '@/internal/types';
+import { useRouter } from 'vue-router';
 
+const router = useRouter()
 
 const $cookies = inject<VueCookies>('$cookies');
 const dialogVisible = ref(false)

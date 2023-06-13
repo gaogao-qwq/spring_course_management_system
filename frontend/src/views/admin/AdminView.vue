@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import router from '@/router';
 import { computed } from '@vue/reactivity';
 import TopMenu from '@/components/TopMenu.vue';
 import Footer from '@/components/Footer.vue';
+import { useRouter } from 'vue-router';
+
+  const router = useRouter()
 
 const activeIndex = computed(() => {
   return router.currentRoute.value.path
