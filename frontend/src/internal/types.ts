@@ -42,3 +42,11 @@ export interface User {
   username: string
   roles: string[]
 }
+
+export interface Response {
+  success: boolean
+  code: number
+  message: string
+  timestamp: number
+  data: any
+}

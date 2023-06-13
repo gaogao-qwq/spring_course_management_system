@@ -4,7 +4,8 @@ import { isEmpty, isNull, isUndefined } from 'lodash';
 import router from '@/router';
 import { LoginApi } from '@/internal/apis';
 import type { VueCookies } from 'vue-cookies';
-import type { FormInstance, FormRules } from 'element-plus';
+import { ElDialog, type FormInstance, type FormRules } from 'element-plus';
+import type { Response } from '@/internal/types';
 
 
 const $cookies = inject<VueCookies>('$cookies');
@@ -45,25 +46,23 @@ const onLogin = async (formEl: FormInstance | undefined) => {
       return;
     }
 
-    let msg = await LoginApi
+    let resp = await LoginApi
       .post('/auth/login', {
         'username': form.username,
         'password': form.password
     })
       .then((r) => {
-        if (!r.data.success || isNull(r.data.data)) {
-          return r.data.message;
-        }
         $cookies?.set("token", r.data.data.token, r.data.data.validityInMs as number/1000)
         $cookies?.set("username", r.data.data.username, r.data.data.validityInMs as number/1000)
-        console.log($cookies)
-        return ""
+        return r.data as Response
     })
-      .catch(() => {
-        return "服务连接失败"
+      .catch((reason) => {
+        dialogMessage.value = "连接服务器失败"
+        dialogVisible.value = true
+        return;
     })
-    if (!isEmpty(msg)) {
-      dialogMessage.value = msg
+    if (!isNull(resp) && (resp as Response).success === false) {
+      dialogMessage.value = (resp as Response).message
       dialogVisible.value = true
       return
     }
