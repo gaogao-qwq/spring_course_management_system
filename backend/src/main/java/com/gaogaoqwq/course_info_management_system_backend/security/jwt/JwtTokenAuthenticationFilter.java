@@ -27,7 +27,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -36,7 +35,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
 
 import java.io.IOException;
-import java.util.Enumeration;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -68,19 +68,24 @@ public class JwtTokenAuthenticationFilter extends GenericFilterBean {
     }
 
     private Optional<String> resolveToken(@NotNull HttpServletRequest request) {
-        Enumeration<String> list = request.getHeaderNames();
-        log.info("HeaderNames: {}", list);
-        String bearerToken = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if (bearerToken == null ||  bearerToken.isEmpty()) {
-            String cookies = request.getHeader("cookie");
-            if (cookies == null) {
-                return Optional.empty();
-            }
-            int tokenIndex = cookies.indexOf("token=");
-            bearerToken = HEADER_PREFIX + cookies.substring(tokenIndex+6, cookies.indexOf(';'));
+        String cookieString = request.getHeader("cookie");
+        String token = "";
+        if (cookieString == null || cookieString.isEmpty()) {
+            return Optional.empty();
         }
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(HEADER_PREFIX)) {
-            return Optional.of(bearerToken.substring(7));
+
+        List<String> cookies = Arrays.stream(cookieString.split("; ")).toList();
+        if (cookies.isEmpty()) {
+            return Optional.empty();
+        }
+        for (String cookie : cookies) {
+            if (cookie.contains("token=")) {
+                token = HEADER_PREFIX + cookie.substring(cookie.indexOf("=")+1);
+            }
+        }
+
+        if (StringUtils.hasText(token) && token.startsWith(HEADER_PREFIX)) {
+            return Optional.of(token.substring(7));
         }
         return Optional.empty();
     }
