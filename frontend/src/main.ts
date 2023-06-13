@@ -20,6 +20,6 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 app.use(ElementPlus, { locale: zhCn })
    .use(createPinia())
    .use(VueCookies, {expires: '1h', path: '/'})
-   .use(router);
+   .use(router)
 
 app.mount("#app");

@@ -11,6 +11,7 @@ import majorManagementView from "@/views/admin/management/MajorManagementView.vu
 import courseManagementView from "@/views/admin/management/CourseManagementView.vue";
 import userManagementView from "@/views/admin/management/UserManagementView.vue";
 import teacherManagementView from "@/views/admin/management/TeacherManagementView.vue";
+import guard from "./guard";
 
 const routes = [
   {
@@ -82,5 +83,6 @@ const router = createRouter({
   routes: routes
 })
 
+router.beforeEach(guard)
+
 export default router
-  
