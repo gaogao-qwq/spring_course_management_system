@@ -9,17 +9,16 @@ const cookies: VueCookies = $cookies
 
 const guard: NavigationGuardWithThis<any> = 
   async (to: RouteLocationNormalized, from: RouteLocationNormalized) => {
-  if (from.path === '' && document.cookie.split('; ').length !== 0) {
-    return true;
-  }
+  let token: string = cookies.get('token');
+  
   if (to.path === '' || to.path === '/') {
     return true;
   }
 
-  let token: string = cookies.get('token');
-
-  if (token === "" || token === null) {
+  if (token === '' || token === null) {
     ElMessage.error("登陆已过期，请重新登陆。")
+    cookies.remove("token")
+    cookies.remove("username")
     return to.path === '' || to.path === '/' 
       ? false
       : '/'
@@ -35,17 +34,23 @@ const guard: NavigationGuardWithThis<any> =
 
   if (isString(resp)) {
     ElMessage.error("服务器连接失败。")
+    cookies.remove("token")
+    cookies.remove("username")
     return to.path === '' || to.path === '/'
       ? false
-      : { path: '/' }
+      : '/'
   }
   if ((resp as Response).code >= 400 && (resp as Response).code < 500) {
     ElMessage.error("登陆已过期，请重新登陆。")
-    return { path: '/' }
+    cookies.remove("token")
+    cookies.remove("username")
+    return '/'
   }
   if ((resp as Response).code >= 500 && (resp as Response).code < 600) {
     ElMessage.error("服务器内部错误。")
-    return { path: '/' }
+    cookies.remove("token")
+    cookies.remove("username")
+    return '/'
   }
   return true
 }
