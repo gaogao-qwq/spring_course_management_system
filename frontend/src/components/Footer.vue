@@ -20,7 +20,7 @@
           :underline="true"
           href="https://www.gnu.org/licenses/gpl-3.0.en.html"
         >
-          GPL-3.0 协议
+          GPL-3.0 许可证
         </el-link>
         和
         <el-link
@@ -28,7 +28,7 @@
           :underline="true"
           href="https://www.gnu.org/licenses/agpl-3.0.en.html"
         >
-          AGPL-3.0 协议
+          AGPL-3.0 许可证
         </el-link>
       </el-text>
       <el-text>
