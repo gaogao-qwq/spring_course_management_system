@@ -41,8 +41,8 @@ const genderFormatter = (row: Teacher, column: TableColumnCtx<Teacher>, cellValu
   return cellValue === 0 ? "男" : "女"
 };
 
-const dateFormatter = (row: Teacher, column: TableColumnCtx<Teacher>, cellValue: string) => {
-  return cellValue.slice(0, 10)
+const dateFormatter = (row: Teacher, column: TableColumnCtx<Teacher>, cellValue: Date) => {
+  return cellValue.toString().slice(0,10)
 };
 
 const currentPage = ref(1)
