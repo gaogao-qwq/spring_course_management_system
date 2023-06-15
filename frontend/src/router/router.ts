@@ -1,7 +1,7 @@
 import profileView from "@/views/ProfileView.vue";
 import adminView from "@/views/admin/AdminView.vue"
 import homeView from "@/views/HomeView.vue";
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory, type RouteRecordRaw } from "vue-router";
 import studentView from "@/views/student/StudentView.vue";
 import teacherView from "@/views/teacher/TeacherView.vue";
 import studentManagementView from "@/views/admin/management/StudentManagementView.vue";
@@ -13,7 +13,7 @@ import userManagementView from "@/views/admin/management/UserManagementView.vue"
 import teacherManagementView from "@/views/admin/management/TeacherManagementView.vue";
 import guard from "./guard";
 
-const routes = [
+const routes: RouteRecordRaw[] = [
   {
     path: "/",
     component: homeView,
