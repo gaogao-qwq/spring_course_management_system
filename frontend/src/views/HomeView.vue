@@ -8,10 +8,13 @@ import type { Response } from '@/internal/types';
 import { useRouter } from 'vue-router';
 
 const router = useRouter()
-
 const $cookies = inject<VueCookies>('$cookies');
 const dialogVisible = ref(false)
 const dialogMessage = ref("")
+
+if ($cookies?.isKey("token")) {
+  router.push("/admin/home")
+}
 
 const ruleFormRef = ref<FormInstance>()
 const form = reactive({
@@ -19,24 +22,25 @@ const form = reactive({
   "password": ""
 })
 
-const usernameValidator = (rule: any, value: any, callback: any) => {
-  if (isNull(value) || isEmpty(value)) {
-    callback(new Error("账号不得为空"))
-  }
-  callback()
-}
-
-const passwordValidator = (rule: any, value: any, callback: any) => {
-  if (isNull(value) || isEmpty(value)) {
-    console.log(value)
-    callback(new Error("密码不得为空"))
-  }
-  callback()
-}
-
 const rules = reactive<FormRules>({
-  username: [{ validator: usernameValidator, trigger: "blur" }],
-  password: [{ validator: passwordValidator, trigger: "blur" }],
+  username: [{
+    validator: (rule: any, value: any, callback: any) => {
+      if (isNull(value) || isEmpty(value)) {
+        callback(new Error("账号不得为空"))
+      }
+      callback()
+    },
+    trigger: "blur"
+  }],
+  password: [{
+    validator: (rule: any, value: any, callback: any) => {
+      if (isNull(value) || isEmpty(value)) {
+        callback(new Error("密码不得为空"))
+      }
+      callback()
+    },
+    trigger: "blur"
+  }],
 })
 
 const onLogin = async (formEl: FormInstance | undefined) => {
@@ -53,8 +57,10 @@ const onLogin = async (formEl: FormInstance | undefined) => {
         'password': form.password
     })
       .then((r) => {
-        $cookies?.set("token", r.data.data.token, r.data.data.validityInMs as number/1000)
-        $cookies?.set("username", r.data.data.username, r.data.data.validityInMs as number/1000)
+        if ((r.data as Response).success) {
+          $cookies?.set("token", r.data.data.token, r.data.data.validityInMs as number/1000)
+          $cookies?.set("username", r.data.data.username, r.data.data.validityInMs as number/1000)
+        }
         return r.data as Response
     })
       .catch((reason) => {
@@ -102,15 +108,13 @@ const onLogin = async (formEl: FormInstance | undefined) => {
             autocomplete="off"
           />
         </el-form-item>
-        <el-row justify="center">
-          <el-button
-            type="primary"
-            @click=onLogin(ruleFormRef)
-          >
-            登陆
-          </el-button>
-        </el-row>
       </el-form>
+      <el-button
+        type="primary"
+        @click=onLogin(ruleFormRef)
+      >
+        登陆
+      </el-button>
     </el-card>
   </div>
 
@@ -120,17 +124,20 @@ const onLogin = async (formEl: FormInstance | undefined) => {
     title="注意"
     width="30%"
     center
+    style="border-radius: 8px;"
   >
     <span>{{ dialogMessage }}</span>
-    <el-row justify="center">
-      <el-button
-        type="primary"
-        @click="dialogVisible = false"
-      >
-        确定
-      </el-button>
-    </el-row>
-</el-dialog>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button
+          type="primary"
+          @click="dialogVisible = false"
+        >
+          确定
+        </el-button>
+      </span>
+    </template>
+  </el-dialog>
 
 </template>
 
@@ -140,16 +147,19 @@ const onLogin = async (formEl: FormInstance | undefined) => {
     display: flex;
     height: 100vh;
   }
+
   .login-form {
     position: relative;
-    margin-top: 10%;
+    margin-top: 200px;
     width: 400px;
-    height: 300px;
+    height: 310px;
     padding: 30px;
     border-radius: 16px;
     text-align: center;
+    backdrop-filter: blur(10px)
   }
-  .dialog {
-    border-radius: 8px;
+
+  .dialog-footer {
+    margin-bottom: 10px;
   }
 </style>
