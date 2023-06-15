@@ -3,8 +3,8 @@ export interface Student {
   codeName: string
   name: string
   gender: number
-  birthDate: string
-  admissionDate: string
+  birthDate: Date
+  admissionDate: Date
   fkClass: Class
 }
 
@@ -13,8 +13,8 @@ export interface Teacher {
   codeNmae: string
   name: string
   gender: number
-  birthDate: string
-  admissionDate: string
+  birthDate: Date
+  admissionDate: Date
 }
 
 export interface Class {
