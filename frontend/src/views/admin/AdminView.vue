@@ -18,42 +18,44 @@ const handleSelect = (key: string, keyPath: string[]) => {
 <template>
   <el-container class="main-container">
     <el-aside width="20%">
-      <el-menu
-        :default-active="activeIndex"
-        class="el-top-menu"
-        mode="vertical"
-        :ellipsis="false"
-        @select="handleSelect"
-      >
-        <el-menu-item index="/admin/home">
-          <el-icon><HomeFilled /></el-icon>
-          <span>主页</span>
-        </el-menu-item>
-        <el-menu-item index="/admin/student">
-          <el-icon><Postcard /></el-icon>
-          <span>学生管理</span>
-        </el-menu-item>
-        <el-menu-item index="/admin/class">
-          <el-icon><DataBoard /></el-icon>
-          <span>班级管理</span>
-        </el-menu-item>
-        <el-menu-item index="/admin/teacher">
-          <el-icon><Avatar /></el-icon>
-          <span>教师管理</span>
-        </el-menu-item>
-        <el-menu-item index="/admin/major">
-          <el-icon><Management /></el-icon>
-          <span>专业管理</span>
-        </el-menu-item>
-        <el-menu-item index="/admin/course">
-          <el-icon><Reading /></el-icon>
-          <span>课程管理</span>
-        </el-menu-item>
-        <el-menu-item index="/admin/user">
-          <el-icon><UserFilled /></el-icon>
-          <span>用户管理</span>
-        </el-menu-item>
-      </el-menu>
+      <el-scrollbar>
+        <el-menu
+          :default-active="activeIndex"
+          class="el-top-menu"
+          mode="vertical"
+          :ellipsis="false"
+          @select="handleSelect"
+        >
+          <el-menu-item index="/admin/home">
+            <el-icon><HomeFilled /></el-icon>
+            <span>主页</span>
+          </el-menu-item>
+          <el-menu-item index="/admin/student">
+            <el-icon><Postcard /></el-icon>
+            <span>学生管理</span>
+          </el-menu-item>
+          <el-menu-item index="/admin/class">
+            <el-icon><DataBoard /></el-icon>
+            <span>班级管理</span>
+          </el-menu-item>
+          <el-menu-item index="/admin/teacher">
+            <el-icon><Avatar /></el-icon>
+            <span>教师管理</span>
+          </el-menu-item>
+          <el-menu-item index="/admin/major">
+            <el-icon><Management /></el-icon>
+            <span>专业管理</span>
+          </el-menu-item>
+          <el-menu-item index="/admin/course">
+            <el-icon><Reading /></el-icon>
+            <span>课程管理</span>
+          </el-menu-item>
+          <el-menu-item index="/admin/user">
+            <el-icon><UserFilled /></el-icon>
+            <span>用户管理</span>
+          </el-menu-item>
+        </el-menu>
+      </el-scrollbar>
     </el-aside>
 
     <el-container>
