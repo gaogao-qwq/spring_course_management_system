@@ -48,6 +48,11 @@ export const GetStudentCountApi = axios.create({
   timeout: 5000
 })
 
+export const UpdateStudentApi = axios.create({
+  url: '/student/update',
+  timeout: 5000
+})
+
 export const FetchClassApi = axios.create({
   url: '/class/all',
   timeout: 5000
