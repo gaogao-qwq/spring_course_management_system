@@ -57,7 +57,7 @@ public class UserInfoController {
         return R.success().data(userService.getUserCount());
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public R updateUser(@RequestBody @NotNull Map<String, String> request)
             throws RuntimeException {
         return R.success().data(userService.updateUserInfo(request));
