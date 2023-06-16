@@ -83,9 +83,7 @@ public class UserServiceImpl implements UserService {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(username, oldPassword));
 
-        User user = userRepository.findUserByUsername(
-                        ((org.springframework.security.core.userdetails.User) authentication.getPrincipal())
-                                .getUsername())
+        User user = userRepository.findUserByUsername(authentication.getPrincipal().toString())
                 .orElseThrow();
         user.setPassword(passwordEncoder.encode(newPassword));
         return userRepository.save(user);
