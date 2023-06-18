@@ -1,45 +1,33 @@
 <script lang="ts" setup>
-import { FetchCourseByPageApi, GetCourseCountApi } from '@/internal/apis';
+import { FetchCourseByPage, GetCourseCount } from '@/internal/apis';
 import type { Course } from '@/internal/types';
-import { isString } from '@vueuse/shared';
+import { isNull } from 'lodash';
 import { ElMessage } from 'element-plus';
 import { ref, type Ref } from 'vue';
 
 const handlePageSwitch = async (page: number) => {
-  let resp = await FetchCourseByPageApi.get('/course/', {
-    params: {
-      page: page-1,
-      size: tableSize.value
-    }
-  }).then((r) => {
-    return r.data.data
-  }).catch((reason) => {
-    return reason as string
-  })
-  if (isString(resp)) {
-    ElMessage.error("获取课程数据失败")
+  let resp = await FetchCourseByPage(page, tableSize.value)
+  if (isNull(resp)) {
+    ElMessage.error("连接服务器失败")
     return
   }
+  if (!resp.success) {
+    ElMessage.error("获取课程数据失败")
+  }
   currentPage.value = page;
-  tableData.value = resp;
+  tableData.value = resp.data;
+  courseCount.value = await GetCourseCount()
+  if (courseCount.value === NaN) ElMessage.error("获取课程数失败")
 }
 
-let courseCount = ref(await GetCourseCountApi
-  .get('/course/count')
-  .then((r) => {
-  return r.data.data
-}).catch(() => {
-  ElMessage.error("获取课程数失败")
-  return NaN
-}));
+const courseCount = ref(0)
+const currentPage = ref(1)
+const tableSize = ref(10)
+const tableData: Ref<Course[]> = ref([])
 
 const handleEdit = (index: number, row: Course) => {
 
 }
-
-const currentPage = ref(1)
-const tableSize = ref(10)
-const tableData: Ref<Course[]> = ref([])
 
 await handlePageSwitch(currentPage.value)
 </script>

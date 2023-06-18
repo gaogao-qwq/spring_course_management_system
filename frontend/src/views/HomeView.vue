@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { ref, reactive, inject } from 'vue';
 import { isEmpty, isNull, isUndefined } from 'lodash';
-import { LoginApi } from '@/internal/apis';
+import { Login } from '@/internal/apis';
 import type { VueCookies } from 'vue-cookies';
-import { ElDialog, type FormInstance, type FormRules } from 'element-plus';
-import type { Response } from '@/internal/types';
+import { ElMessage, type FormInstance, type FormRules } from 'element-plus';
 import { useRouter } from 'vue-router';
 
 const router = useRouter()
@@ -51,26 +50,13 @@ const onLogin = async (formEl: FormInstance | undefined) => {
       return;
     }
 
-    let resp = await LoginApi
-      .post('/auth/login', {
-        'username': form.username,
-        'password': form.password
-    })
-      .then((r) => {
-        if ((r.data as Response).success) {
-          $cookies?.set("token", r.data.data.token, r.data.data.validityInMs as number/1000)
-          $cookies?.set("username", r.data.data.username, r.data.data.validityInMs as number/1000)
-        }
-        return r.data as Response
-    })
-      .catch((reason) => {
-        dialogMessage.value = "连接服务器失败"
-        dialogVisible.value = true
-        return;
-    })
-    if (!isNull(resp) && (resp as Response).success === false) {
-      dialogMessage.value = (resp as Response).message
-      dialogVisible.value = true
+    let resp = await Login(form.username, form.password)
+    if (isNull(resp)) {
+      ElMessage.error("连接服务器失败")
+      return
+    }
+    if (!resp.success) {
+      ElMessage.error(resp.message)
       return
     }
     router.push("/admin/home")
@@ -117,28 +103,6 @@ const onLogin = async (formEl: FormInstance | undefined) => {
       </el-button>
     </el-card>
   </div>
-
-  <el-dialog
-    class="dialog"
-    v-model="dialogVisible"
-    title="注意"
-    width="30%"
-    center
-    style="border-radius: 8px;"
-  >
-    <span>{{ dialogMessage }}</span>
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button
-          type="primary"
-          @click="dialogVisible = false"
-        >
-          确定
-        </el-button>
-      </span>
-    </template>
-  </el-dialog>
-
 </template>
 
 <style scoped>

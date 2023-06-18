@@ -1,6 +1,6 @@
-import { UserInfoApi } from '@/internal/apis';
+import { GetUserProfile } from '@/internal/apis';
 import type { Response } from '@/internal/types';
-import { isString } from '@vueuse/shared';
+import { isNull } from 'lodash';
 import { ElMessage } from 'element-plus';
 import type { VueCookies } from 'vue-cookies';
 import type { NavigationGuardWithThis, RouteLocationNormalized } from 'vue-router';
@@ -24,15 +24,8 @@ const guard: NavigationGuardWithThis<any> =
       : '/'
   }
 
-  const resp = await UserInfoApi.get('/user/me')
-    .then((r) => {
-      return r.data as Response
-  })
-    .catch((reason) => {
-      return reason as string
-  })
-
-  if (isString(resp)) {
+  const resp = await GetUserProfile()
+  if (isNull(resp)) {
     ElMessage.error("服务器连接失败。")
     cookies.remove("token")
     cookies.remove("username")

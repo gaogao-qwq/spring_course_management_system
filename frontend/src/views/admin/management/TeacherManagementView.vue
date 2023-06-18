@@ -1,40 +1,24 @@
 <script lang="ts" setup>
-import { FetchTeacherByPageApi, GetTeacherCountApi } from '@/internal/apis';
+import { FetchTeacherByPage, GetTeacherCount } from '@/internal/apis';
 import type { Teacher } from '@/internal/types';
-import { isString } from '@vueuse/shared';
+import { isNull } from 'lodash';
 import { ElMessage, type TableColumnCtx } from 'element-plus';
 import { ref, type Ref } from 'vue';
 
 const handlePageSwitch = async (page: number) => {
-  let resp = await FetchTeacherByPageApi.get('/teacher/', {
-    params: {
-      page: page-1,
-      size: tableSize.value
-    }
-  }).then((r) => {
-    return r.data.data
-  }).catch((reason) => {
-    return reason as string
-  })
-  if (isString(resp)) {
-    ElMessage.error("获取教师数据失败")
+  let resp = await FetchTeacherByPage(page, tableSize.value)
+  if (isNull(resp)) {
+    ElMessage.error("连接服务器失败")
+    return
+  }
+  if (!resp.success) {
+    ElMessage.error(resp.message)
     return
   }
   currentPage.value = page;
-  tableData.value = resp;
-}
-
-let teacherCount = ref(await GetTeacherCountApi
-  .get('/teacher/count')
-  .then((r) => {
-  return r.data.data
-}).catch(() => {
-  ElMessage.error("获取教师数失败")
-  return NaN
-}));
-
-const handleEdit = (index: number, row: Teacher) => {
-
+  tableData.value = resp.data;
+  teacherCount.value = await GetTeacherCount()
+  if (teacherCount.value === NaN) ElMessage.error("获取教师数失败")
 }
 
 const genderFormatter = (row: Teacher, column: TableColumnCtx<Teacher>, cellValue: number) => {
@@ -45,9 +29,14 @@ const dateFormatter = (row: Teacher, column: TableColumnCtx<Teacher>, cellValue:
   return cellValue.toString().slice(0,10)
 };
 
+const teacherCount = ref(0)
 const currentPage = ref(1)
 const tableSize = ref(10)
 const tableData: Ref<Teacher[]> = ref([])
+
+const handleEdit = (index: number, row: Teacher) => {
+
+}
 
 await handlePageSwitch(currentPage.value)
 </script>

@@ -1,45 +1,34 @@
 <script lang="ts" setup>
-import { FetchMajorByPageApi, GetMajorCountApi } from '@/internal/apis';
+import { FetchMajorByPage, GetMajorCount } from '@/internal/apis';
 import type { Major } from '@/internal/types';
-import { isString } from '@vueuse/shared';
+import { isNull } from 'lodash';
 import { ElMessage } from 'element-plus';
 import { ref, type Ref } from 'vue';
 
 const handlePageSwitch = async (page: number) => {
-  let resp = await FetchMajorByPageApi.get('/major/', {
-    params: {
-      page: page-1,
-      size: tableSize.value
-    }
-  }).then((r) => {
-    return r.data.data
-  }).catch((reason) => {
-    return reason as string
-  })
-  if (isString(resp)) {
-    ElMessage.error("获取专业数据失败")
+  let resp = await FetchMajorByPage(page, tableSize.value)
+  if (isNull(resp)) {
+    ElMessage.error("连接服务器失败")
+    return
+  }
+  if (!resp.success) {
+    ElMessage.error(resp.message)
     return
   }
   currentPage.value = page;
-  tableData.value = resp;
+  tableData.value = resp.data;
+  majorCount.value = await GetMajorCount()
+  if (majorCount.value === NaN) ElMessage.error("获取专业数失败")
 }
 
-let majorCount = ref(await GetMajorCountApi
-  .get('/major/count')
-  .then((r) => {
-  return r.data.data
-}).catch(() => {
-  ElMessage.error("获取专业数失败")
-  return NaN
-}));
+const majorCount = ref(0)
+const currentPage = ref(1)
+const tableSize = ref(10)
+const tableData: Ref<Major[]> = ref([])
 
 const handleEdit = (index: number, row: Major) => {
 
 }
-
-const currentPage = ref(1)
-const tableSize = ref(10)
-const tableData: Ref<Major[]> = ref([])
 
 await handlePageSwitch(currentPage.value)
 </script>

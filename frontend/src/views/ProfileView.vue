@@ -1,53 +1,65 @@
 <script setup lang="ts">
-import { UserInfoApi } from '@/internal/apis';
-import type { FormInstance, FormRules } from 'element-plus';
-import { isEmpty, isNull, isString, isUndefined } from 'lodash';
-import { reactive, ref } from 'vue';
+import { GetUserProfile, UpdateUserInfo } from '@/internal/apis';
+import type { User } from '@/internal/types';
+import router from '@/router/router';
+import { ElMessage, type FormInstance, type FormRules } from 'element-plus';
+import { isEmpty, isNull, isUndefined } from 'lodash';
+import { inject, reactive, ref } from 'vue';
+import type { VueCookies } from 'vue-cookies';
 
-let resp = await UserInfoApi
-  .get('/user/me')
-  .then((response) => {
-    if(!response.data.success || isNull(response.data.data)) {
-      return response.data.message
-    }
-    return response.data.data
-})
-  .catch(() => {
-    return "服务连接失败"
-});
-
-if (isString(resp)) {
-}
-
-const username = resp.username
+const $cookies = inject<VueCookies>('$cookies');
 const ruleFormRef = ref<FormInstance>()
+let user = <User>{}
 const form = reactive({
-  username: resp.username,
+  username: "",
   old_password: "",
   new_password: ""
 })
 
-const usernameValidator = (rule: any, value: any, callback: any) => {
-  if (value != username) {
-    callback(new Error("账号不可更改"))
-  }
-  callback()
-}
-
-const passwordValidator = (rule: any, value: any, callback: any) => {
-  if (isEmpty(value) || isNull(value)) {
-    callback(new Error("密码不得为空"))
-  }
-  if (form.new_password == form.old_password) {
-    callback(new Error("新密码与旧密码一致"))
-  }
-  callback()
+let resp = await GetUserProfile()
+if (isNull(resp)) {
+  ElMessage.error("连接服务器错误")
+} else if (!resp.success) {
+  ElMessage.error(resp.message)
+} else {
+  user = resp.data as User
+  form.username = user.username
 }
 
 const rules = reactive<FormRules>({
-  username: { validator: usernameValidator },
-  old_password: { validator: passwordValidator },
-  new_password: { validator: passwordValidator },
+  username: [{
+    validator: (rule: any, value: any, callback: any) => {
+      if (value != user.username) {
+        callback(new Error("账号不可更改"))
+      }
+      callback()
+    },
+    trigger: "blur"
+  }],
+  old_password: [{
+    validator: (rule: any, value: any, callback: any) => {
+      if (isEmpty(value) || isNull(value)) {
+        callback(new Error("密码不得为空"))
+      }
+      if (form.new_password == form.old_password) {
+        callback(new Error("新密码与旧密码一致"))
+      }
+      callback()
+    },
+    trigger: "blur"
+  }],
+  new_password: [{
+    validator: (rule: any, value: any, callback: any) => {
+      if (isEmpty(value) || isNull(value)) {
+        callback(new Error("密码不得为空"))
+      }
+      if (form.new_password == form.old_password) {
+        callback(new Error("新密码与旧密码一致"))
+      }
+      callback()
+    },
+    trigger: "blur"
+  }],
 })
 
 const onSubmit = async (formEl: FormInstance | undefined) => {
@@ -57,6 +69,19 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
     if (!valid) {
       return;
     }
+    const resp = await UpdateUserInfo(form)
+    if (isNull(resp)) {
+      ElMessage.error("连接服务器失败")
+      return;
+    }
+    if (!resp.success) {
+      ElMessage.error(resp.message)
+      return;
+    }
+    $cookies?.remove('token')
+    $cookies?.remove('username')
+    router.push('/')
+    ElMessage.success("更改档案成功，请重新登陆。")
   });
 }
 </script>

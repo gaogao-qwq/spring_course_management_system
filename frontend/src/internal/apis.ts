@@ -1,96 +1,225 @@
 import axios from 'axios'
+import type { Class, Response } from '@/internal/types'
+import type { VueCookies } from 'vue-cookies'
 
 axios.defaults.baseURL = '/api'
 axios.defaults.withCredentials = true
 axios.defaults.timeout = 5000
 
-export const LoginApi = axios.create({
-  url: '/auth/login',
-})
+const cookies: VueCookies = $cookies
 
-export const UserInfoApi = axios.create({
-  url: '/user/me',
-})
+export const Login = async function Login(username: string, password: string) {
+  return await axios.post('/auth/login', {
+      'username': username,
+      'password': password
+    },
+    {
+      withCredentials: false,
+    })
+      .then((r) => {
+        if ((r.data as Response).success) {
+          cookies.set("token", r.data.data.token, r.data.data.validityInMs as number/1000)
+          cookies.set("username", r.data.data.username, r.data.data.validityInMs as number/1000)
+        }
+        return r.data as Response
+    })
+      .catch(() => {
+        return null;
+    })
+}
 
-export const UpdateUserInfoApi = axios.create({
-  url: '/user/update',
-})
+export async function GetUserProfile() {
+  return axios.get('/user/me')
+    .then((r) => {
+    return r.data as Response
+  })
+    .catch(() => {
+    return null
+  });
+}
 
-export const GetUserCountApi = axios.create({
-  url: '/user/count',
-})
+export async function UpdateUserInfo (form: any) {
+  return axios.put('/user/update', form)
+    .then((r) => {
+    return r.data as Response
+  })
+    .catch(() => {
+    return null
+  })
+}
 
-export const FetchUserApi = axios.create({
-  url: '/user/all',
-})
+export async function GetUserCount() {
+  return await axios.get('/user/count')
+    .then((r) => {
+      if (!r.data.success) return NaN
+      return r.data.data as number
+  })
+    .catch(() => {
+    return NaN
+  })
+}
 
-export const FetchUserByPageApi = axios.create({
-  url: '/user/',
-})
+export async function FetchUserByPage(page: number, size: number) {
+  return axios.get('/user/', {
+    params: {
+      page: page-1,
+      size: size
+    }
+  }).then((r) => {
+    return r.data as Response
+  }).catch(() => {
+    return null
+  })
+}
 
-export const FetchStudentApi = axios.create({
-  url: '/student/all',
-})
+export async function FetchStudentByPage(page: number, size: number) {
+  return axios.get('/student/', {
+    params: {
+      page: page-1,
+      size: size
+    }
+  }).then((r) => {
+    return r.data as Response
+  }).catch(() => {
+    return null
+  })
+}
 
-export const FetchStudentByPageApi = axios.create({
-  url: '/student/',
-})
+export async function GetStudentCount() {
+  return await axios.get('/student/count')
+    .then((r) => {
+      if (!r.data.success) return NaN
+      return r.data.data as number
+  })
+    .catch(() => {
+    return NaN
+  })
+}
 
-export const GetStudentCountApi = axios.create({
-  url: '/student/count',
-})
+export async function UpdateStudentInfo(form: any) {
+  return axios.put('/student/update', form)
+    .then((r) => {
+    return r.data as Response
+  })
+    .catch(() => {
+    return null
+  })
+}
 
-export const UpdateStudentApi = axios.create({
-  url: '/student/update',
-})
+export async function FetchClass() {
+  return await axios.get('/class/all')
+    .then((r) => {
+    return r.data as Response
+  })
+    .catch((reason) => {
+    return null
+  })
+}
 
-export const FetchClassApi = axios.create({
-  url: '/class/all',
-})
+export async function FetchClassByPage(page: number, size: number) {
+  return axios.get('/class/', {
+    params: {
+      page: page-1,
+      size: size
+    }
+  }).then((r) => {
+    return r.data as Response
+  }).catch(() => {
+    return null
+  })
+}
 
-export const FetchClassByPageApi = axios.create({
-  url: '/class/',
+export async function GetClassCount() {
+  return await axios.get('/class/count')
+    .then((r) => {
+    if (!r.data.success) return NaN
+    return r.data.data as number
+  })
+    .catch(() => {
+    return NaN
+  })
+}
 
-})
+export async function FetchTeacherByPage(page: number, size: number) {
+  return axios.get('/teacher/', {
+    params: {
+      page: page-1,
+      size: size
+    }
+  }).then((r) => {
+    return r.data as Response
+  }).catch(() => {
+    return null
+  })
+}
 
-export const GetClassCountApi = axios.create({
-  url: '/class/count',
-})
+export async function GetTeacherCount() {
+  return await axios.get('/teacher/count')
+    .then((r) => {
+    if (!r.data.success) return NaN
+    return r.data.data as number
+  })
+    .catch(() => {
+    return NaN
+  })
+}
 
-export const FetchTeacherApi = axios.create({
-  url: '/teacher/all',
-})
+export async function FetchMajorByPage(page: number, size: number) {
+  return axios.get('/major/', {
+    params: {
+      page: page-1,
+      size: size
+    }
+  }).then((r) => {
+    return r.data as Response
+  }).catch(() => {
+    return null
+  })
+}
 
-export const FetchTeacherByPageApi = axios.create({
-  url: '/teacher/',
-})
+export async function GetMajorCount() {
+  return await axios.get('/major/count')
+    .then((r) => {
+    if (!r.data.success) return NaN
+    return r.data.data as number
+  })
+    .catch(() => {
+    return NaN
+  })
+}
 
-export const GetTeacherCountApi = axios.create({
-  url: '/teacher/count',
-})
+export async function FetchCourse() {
+  return await axios.get('/course/all')
+    .then((r) => {
+    return r.data as Response
+  })
+    .catch(() => {
+    return null
+  })
+}
 
-export const FetchMajorApi = axios.create({
-  url: '/major/all',
-})
+export async function FetchCourseByPage(page: number, size: number) {
+  return axios.get('/course/', {
+    params: {
+      page: page-1,
+      size: size
+    }
+  }).then((r) => {
+    return r.data as Response
+  }).catch(() => {
+    return null
+  })
+}
 
-export const FetchMajorByPageApi = axios.create({
-  url: '/major/',
-})
-
-export const GetMajorCountApi = axios.create({
-  url: '/major/count',
-})
-
-export const FetchCourseApi = axios.create({
-  url: '/course/all',
-})
-
-export const FetchCourseByPageApi = axios.create({
-  url: '/course/',
-})
-
-export const GetCourseCountApi = axios.create({
-  url: '/course/count',
-})
+export async function GetCourseCount() {
+  return await axios.get('/course/count')
+    .then((r) => {
+    if (!r.data.success) return NaN
+    return r.data.data as number
+  })
+    .catch(() => {
+    return NaN
+  })
+}
 
 

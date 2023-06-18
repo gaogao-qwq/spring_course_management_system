@@ -1,45 +1,33 @@
 <script lang="ts" setup>
-import { FetchClassByPageApi, GetClassCountApi } from '@/internal/apis';
+import { FetchClassByPage, GetClassCount } from '@/internal/apis';
 import type { Class } from '@/internal/types';
-import { isString } from '@vueuse/shared';
+import { isNull } from 'lodash';
 import { ElMessage } from 'element-plus';
 import { ref, type Ref } from 'vue';
 
 const handlePageSwitch = async (page: number) => {
-  let resp = await FetchClassByPageApi.get('/class/', {
-    params: {
-      page: page-1,
-      size: tableSize.value
-    }
-  }).then((r) => {
-    return r.data.data
-  }).catch((reason) => {
-    return reason as string
-  })
-  if (isString(resp)) {
-    ElMessage.error("获取班级数据失败")
+  let resp = await FetchClassByPage(page, tableSize.value)
+  if (isNull(resp)) {
+    ElMessage.error("连接服务器失败")
     return
   }
+  if (!resp.success) {
+    ElMessage.error("获取班级数据失败")
+  }
   currentPage.value = page;
-  tableData.value = resp;
+  tableData.value = resp.data;
+  classCount.value = await GetClassCount()
+  if (classCount.value === NaN) ElMessage.error("获取班级数失败")
 }
 
-let classCount = ref(await GetClassCountApi
-  .get('/class/count')
-  .then((r) => {
-  return r.data.data
-}).catch(() => {
-  ElMessage.error("获取班级数失败")
-  return NaN
-}));
+const classCount = ref(0)
+const currentPage = ref(1)
+const tableSize = ref(10)
+const tableData: Ref<Class[]> = ref([])
 
 const handleEdit = (index: number, row: Class) => {
 
 }
-
-const currentPage = ref(1)
-const tableSize = ref(10)
-const tableData: Ref<Class[]> = ref([])
 
 await handlePageSwitch(currentPage.value)
 </script>
