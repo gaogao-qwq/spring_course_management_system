@@ -1,5 +1,5 @@
 import axios from 'axios'
-import type { Class, Response } from '@/internal/types'
+import type { Response } from '@/internal/types'
 import type { VueCookies } from 'vue-cookies'
 
 axios.defaults.baseURL = '/api'
@@ -111,7 +111,7 @@ export async function FetchClass() {
     .then((r) => {
     return r.data as Response
   })
-    .catch((reason) => {
+    .catch(() => {
     return null
   })
 }
