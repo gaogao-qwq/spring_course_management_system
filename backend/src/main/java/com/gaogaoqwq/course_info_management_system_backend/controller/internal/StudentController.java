@@ -179,7 +179,7 @@ public class StudentController {
     }
 
     @PutMapping("/update")
-    public R UpdateStudent(@RequestParam Student student) throws QueryException {
+    public R UpdateStudent(@RequestBody Student student) throws QueryException {
         Student std = studentService.update(student);
         return R.success().code(ResultCode.SUCCESS.getCode()).data(std);
     }
