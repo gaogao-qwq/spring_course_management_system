@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { FetchClass, FetchStudentByPage, GetStudentCount, UpdateStudentInfo } from '@/internal/apis';
 import { genders } from '@/internal/constants';
-import type { Response, Student } from '@/internal/types';
+import type { Class, Student } from '@/internal/types';
 import { ElMessage, type FormInstance, type FormRules, type TableColumnCtx } from 'element-plus';
-import { isEmpty, isNull, isUndefined } from 'lodash';
+import { isNull, isUndefined } from 'lodash';
 import { reactive, ref, type Ref } from 'vue';
 
 const handlePageSwitch = async (page: number) => {
@@ -30,6 +30,7 @@ const editDialogEnable = ref(false);
 const ruleFormRef = ref<FormInstance>();
 const form: Ref<Student> = ref(<Student>{});
 const origin: Ref<Student> = ref(<Student>{});
+const classes: Ref<Class[]> = ref(<Class[]>{});
 const cancelConfirm = ref(false)
 const submitConfirm = ref(false)
 
@@ -44,64 +45,44 @@ const dateFormatter = (row: Student, column: TableColumnCtx<Student>, cellValue:
 const handleEdit = async (index: number, row: Student) => {
   origin.value = row
   form.value = JSON.parse(JSON.stringify(row))
-  const classes = await FetchClass()
+  const resp = await FetchClass()
+  if (isNull(resp) || !resp.success) ElMessage.error("获取班级数据失败")
+  else classes.value = resp.data
   editDialogEnable.value = true;
 }
 
 const rules = reactive<FormRules>({
   codeName: [{
-    validator: (rule: any, value: any, callback: any) => {
-      if (isNull(value) || isEmpty(value)) {
-        callback(new Error("学号不得为空"))
-      }
-      callback()
-    },
-    trigger: "blur"
+    required: true,
+    message: '请输入学号',
+    trigger: 'blur'
   }],
   name: [{
-    validator: (rule: any, value: any, callback:any) => {
-      if (isNull(value) || isEmpty(value)) {
-        callback(new Error("姓名不得为空"))
-      }
-      callback()
-    },
-    trigger: "blur"
+    required: true,
+    message: '请输入姓名',
+    trigger: 'blur'
   }],
   gender: [{
-    validator: (rule: any, value: any, callback:any) => {
-      if (isNull(value) || isEmpty(value)) {
-        callback(new Error("性别不得为空"))
-      }
-      callback()
-    },
-    trigger: "blur"
+    required: true,
+    message: '请选择性别',
+    trigger: 'change'
   }],
   birthDate: [{
-    validator: (rule: any, value: any, callback:any) => {
-      if (isNull(value) || isEmpty(value)) {
-        callback(new Error("出生日期不得为空"))
-      }
-      callback()
-    },
-    trigger: "blur"
+    type: 'date',
+    required: true,
+    message: '请选择出生日期',
+    trigger: 'change'
   }],
   admissionDate: [{
-    validator: (rule: any, value: any, callback:any) => {
-      if (isNull(value) || isEmpty(value)) {
-        callback(new Error("入学日期不得为空"))
-      }
-      callback()
-    },
-    trigger: "blur"
+    type: 'date',
+    required: true,
+    message: '请选择入学日期',
+    trigger: 'change'
   }],
   fkClass: [{
-    validator: (rule: any, value: any, callback:any) => {
-      if (isNull(value)) {
-        callback(new Error("班级不得为空"))
-      }
-      callback()
-    },
-    trigger: "blur"
+    required: true,
+    message: '请选择所属班级',
+    trigger: 'change'
   }]
 })
 
@@ -111,9 +92,11 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
   const resp = await UpdateStudentInfo(form.value)
   if (isNull(resp)) return
   if (!resp.success) {
-    ElMessage(resp.message)
+    ElMessage.error(resp.message)
   }
+  await handlePageSwitch(currentPage.value)
   editDialogEnable.value = false
+  ElMessage.success("更新学生资料成功")
 }
 
 await handlePageSwitch(currentPage.value)
@@ -153,7 +136,6 @@ await handlePageSwitch(currentPage.value)
       />
     </div>
   </el-card>
-
   <el-dialog
     v-model="editDialogEnable"
     :draggable="true"
@@ -204,13 +186,6 @@ await handlePageSwitch(currentPage.value)
           />
         </el-select>
       </el-form-item>
-      <el-form-item prop="birthDate" label="出生日期">
-        <el-date-picker 
-          v-model="form.birthDate"
-          type="date"
-          placeholder="选择出生日期"
-        />
-      </el-form-item>
       <el-form-item prop="admissionDate" label="入学日期">
         <el-date-picker
           v-model="form.admissionDate"
@@ -218,7 +193,27 @@ await handlePageSwitch(currentPage.value)
           placeholder="选择入学日期"
         />
       </el-form-item>
+      <el-form-item prop="birthDate" label="出生日期">
+        <el-date-picker 
+          v-model="form.birthDate"
+          type="date"
+          placeholder="选择出生日期"
+        />
+      </el-form-item>
       <el-form-item prop="fkClass" label="班级">
+        <el-select
+          v-model="form.fkClass"
+          value-key="id"
+          filterable
+          placeholder="请选择所属班级"
+        >
+          <el-option
+            v-for="item in classes"
+            :key="item.id"
+            :label="item.name"
+            :value="item"
+          />
+        </el-select>
       </el-form-item>
     </el-form>
     <template #footer>
@@ -268,7 +263,6 @@ await handlePageSwitch(currentPage.value)
             </el-button>
           </template>
         </el-popover>
-        
       </span>
     </template>
   </el-dialog>
