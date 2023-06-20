@@ -65,7 +65,6 @@ const onLogin = async (formEl: FormInstance | undefined) => {
 </script>
 
 <template>
-
   <div class="container">
     <el-card class="login-form">
       <h2>登录</h2>
@@ -110,6 +109,8 @@ const onLogin = async (formEl: FormInstance | undefined) => {
     justify-content: center;
     display: flex;
     height: 100vh;
+    background-image: url("@/assets/background.jpg");
+    background-size: cover;
   }
 
   .login-form {
