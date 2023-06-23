@@ -56,7 +56,7 @@ git clone https://github.com/gaogao-qwq/spring_course_management_system.git
 
 ### 后端
 
-本项目使用 `JPA` 作为 `ORM`。在运行后端前，清闲确保环境中至少存在一种数据库服务，且确保已经创建了相应数据库/架构
+本项目使用 `JPA` 作为 `ORM`。在运行后端前，清确保环境中至少存在一种数据库服务，并确保已经创建了相应数据库/架构
 （不需要建立任何数据表，`JPA` 会根据相应的 `Entity` 自动建立数据表），并根据设备数据库具体配置到
 `spring_course_management_system/backend/src/main/resource/application.properties`
 中调整 `jdbc` 的连接配置。
