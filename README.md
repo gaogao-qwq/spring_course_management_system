@@ -1,4 +1,6 @@
 # 基于 Spring & Vue3 的简单教务管理系统
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fgaogao-qwq%2Fspring_course_management_system.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fgaogao-qwq%2Fspring_course_management_system?ref=badge_shield)
+
 
 ## 前端页面结构图
 
@@ -83,3 +85,7 @@ npm run dev # 编译并启用热重载，适用于开发环境
 
 本项目前端使用 GPL-3.0 开源许可证开放源代码，后端使用 AGPL-3.0 开源许可证开放源代码，
 前端许可证位于 `frontend` 目录，后端许可证位于 `backend` 目录。
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fgaogao-qwq%2Fspring_course_management_system.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fgaogao-qwq%2Fspring_course_management_system?ref=badge_large)
